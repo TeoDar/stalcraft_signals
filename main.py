@@ -1,14 +1,22 @@
+###################################################################################################
+# Введите разрешение вашего экрана:
+screen_width, scrin_height = 2560, 1440
+###################################################################################################
+
+
 from time import sleep, strftime, localtime
 import winsound
 import pyautogui, keyboard
 from multiprocessing import Process, Manager
 
+delta_x = screen_width/1920
+delta_y = scrin_height/1080
 
 last_proc: Process
-x_signal, y_signal = 688, 398  # Координаты индикатора найденного сигнала
-x_tumbler, y_tumbler = 1350, 790  # Координаты тумблера начала сканирования
-x_search_btn, y_search_btn = 630, 570  # Координаты кнопки "ПОИСК"
-r, g, b = 95, 114, 92  # Цвет индикатора НЕнайденного сигнала
+x_signal, y_signal = int(688 * delta_x), int(398 * delta_y)  # Координаты индикатора найденного сигнала
+x_tumbler, y_tumbler = int(1350 * delta_x), int(790 * delta_y)  # Координаты тумблера начала сканирования
+x_search_btn, y_search_btn = int(630 * delta_x), int(570 * delta_y)  # Координаты кнопки "ПОИСК"
+r, g, b = pyautogui.pixel(x_signal, y_signal)  # Цвет индикатора НЕнайденного сигнала
 s_color_summ = r + g + b  # Вычисление суммы светов для дальнейшего сравнения и обнаружения найденного сигнала
 
 
@@ -30,7 +38,7 @@ def searching(SEARCHING_ACTIVE: Manager):
 
 
 def start_stop(SEARCHING_ACTIVE: Manager):
-    '''Функция управляющия потоками для регулирования запуска/остановки'''
+    """Функция управляющия потоками для регулирования запуска/остановки"""
     global last_proc
     search_proc = Process(target=searching, args=(SEARCHING_ACTIVE,))
     if SEARCHING_ACTIVE.value:
@@ -46,6 +54,7 @@ def start_stop(SEARCHING_ACTIVE: Manager):
 
 
 def main():
+    global last_proc
     manager = Manager()
     SEARCHING_ACTIVE = manager.Value("SEARCHING_ACTIVE", False)
     print('Для запуска/остановки поиска нажмите "F3"\nДля завершения нажмине "F4"')
