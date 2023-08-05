@@ -1,23 +1,21 @@
-import multiprocessing as mp
 from time import sleep
+import winsound
+import pyautogui
+from screeninfo import get_monitors
 
 
-def f():
-    s = 20
-    while s > 0:
-        sleep(1)
-        print(s,'\r')
-        s-=1
+try:
+    winsound.PlaySound('bfuzz_hit.wav', winsound.SND_FILENAME | winsound.SND_ASYNC)
+except Exception as e:
+    print(e)
+sleep(2)
+# screen = 0
+# screen_width, screen_height = [(x.width, x.height) for x in get_monitors()][screen]
+# x_s_ready, y_s_ready = int(0.33 * screen_width), int(0.44 * screen_height)  # Координаты окна сигнализирующего о найденном сигнале
+# pyautogui.moveTo(x_s_ready, y_s_ready)
 
-
-
-def main():
-    proc = mp.Process(target=f)
-    proc.start()
-    sleep(3)
-    proc.terminate()
-    
-
-
-if __name__=='__main__':
-    main()
+# def check_founded() -> bool:
+#         for i in range(10):
+#             r, g, b = pyautogui.pixel(x_s_ready+i, y_s_ready)
+#             pyautogui.moveTo(x_s_ready, y_s_ready+i)
+#             print(f'Проверка цвета иконки:', r, g, b, end='\r')
