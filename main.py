@@ -5,12 +5,17 @@ lamps = 10  # На какой лампочке останавливать пои
 ###################################################################################################
 import subprocess
 import sys, os
+from tkinter import messagebox
 import winsound
 import pyautogui, keyboard
 from screeninfo import get_monitors
 from time import sleep, strftime, localtime
+from traceback import format_exc as exc
 from ahk import AHK
 from ahk.directives import NoTrayIcon
+from sys import exit
+PROGRAMFILES = os.environ["PROGRAMFILES"]
+os.environ["AHK_PATH"] = f"{PROGRAMFILES}\AutoHotkey\AutoHotkey.exe"
 
 
 screen_width, screen_height = [(x.width, x.height) for x in get_monitors()][screen]
@@ -34,7 +39,7 @@ class SignalFinder:
             exit("[Ошибка]: Не найдено окно STALCRAFT или игра не запущена")
 
         self.searching_active = False
-        keyboard.add_hotkey(hotkey="v", callback=self.get_first)
+        #keyboard.add_hotkey(hotkey="v", callback=self.get_first)
         self.ahk.add_hotkey(keyname="f3", callback=self.manager)
         self.ahk.add_hotkey(keyname="=", callback=self.incr_lumps)
         self.ahk.add_hotkey(keyname="-", callback=self.decr_lumps)
@@ -164,7 +169,10 @@ class SignalFinder:
 
 
 def main():
-    SignalFinder()
+    try:
+        SignalFinder()
+    except:
+        messagebox.showinfo(message=exc(),icon="question")
 
 
 if __name__ == "__main__":

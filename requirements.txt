@@ -1,3 +1,4 @@
-winsound
 pyautogui
 keyboard
+screeninfo
+ahk

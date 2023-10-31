@@ -1,0 +1,4 @@
+dist/
+.venv/
+build/
+main.spec
