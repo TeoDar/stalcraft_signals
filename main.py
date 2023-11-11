@@ -1,7 +1,7 @@
 ###################################################################################################
 # Введите номер монитора на котором запущена игра вашего экрана:
 screen = 0
-lamps = 10  # На какой лампочке останавливать поиск
+lamps = 6  # На какой лампочке останавливать поиск
 ###################################################################################################
 import subprocess
 import sys, os
@@ -33,6 +33,8 @@ x_inventory, y_first_inventory = int(0.177 * screen_width), int(0.12 * screen_he
 
 class SignalFinder:
     def __init__(self) -> None:
+        global lamps
+        self.lamps = lamps
         self.ahk = AHK(directives=[NoTrayIcon(apply_to_hotkeys_process=True)])
         self.win = self.ahk.win_get("STALCRAFT")
         if not self.win:
@@ -64,6 +66,7 @@ class SignalFinder:
         self.win.send("x")
         sleep(1)
         rs, gs, bs = pyautogui.pixel(x_signal, y_signal)  # Цвет индикатора НЕнайденного сигнала
+        print(strftime("\n[%H:%M:%S]", localtime()), end=": ")
         print(f"Начальный цвет индикатора: [R:{rs} G:{gs} B:{bs}]")
         s_color_summ = rs + gs + bs  # Вычисление суммы светов для дальнейшего сравнения и обнаружения найденного сигнала
         s = [".", "..", "...", "...."]
@@ -105,8 +108,8 @@ class SignalFinder:
         self.win.click(x=x_m_tumbler, y=y_m_tumbler, blocking=True)
         # Ожидание до 6 дальности
         for i in range(11):
-            if i <= lamps:
-                sleep(1)
+            if i <= self.lamps:
+                sleep(1.5)
         # Отключение сканирования
         pyautogui.moveTo(x=x_m_tumbler, y=y_m_tumbler)
         self.win.click(x=x_m_tumbler, y=y_m_tumbler, blocking=True)
@@ -130,11 +133,10 @@ class SignalFinder:
         return False
 
     def incr_lumps(self):
-        global lamps
-        lamps += 1
-        if lamps > 10:
-            lamps = 10
-        print(f"Сканирование до [{lamps}] лампочки")
+        self.lamps += 1
+        if self.lamps > 10:
+            self.lamps = 10
+        print(f"Сканирование до [{self.lamps}] лампочки")
 
     @staticmethod
     def timer():
@@ -146,11 +148,10 @@ class SignalFinder:
         print("\n")
 
     def decr_lumps(self):
-        global lamps
-        lamps -= 1
-        if lamps < 1:
-            lamps = 1
-        print(f"Сканирование до [{lamps}] лампочки")
+        self.lamps -= 1
+        if self.lamps < 1:
+            self.lamps = 1
+        print(f"Сканирование до [{self.lamps}] лампочки")
 
     def reopen_suck(self):
         if self.searching_active == False:
