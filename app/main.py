@@ -1,10 +1,5 @@
-###################################################################################################
-# Введите номер монитора на котором запущена игра вашего экрана:
-screen = 0
-lamps = 6  # На какой лампочке останавливать поиск
-###################################################################################################
-import subprocess
 import sys, os
+import subprocess
 from tkinter import messagebox
 import winsound
 import pyautogui, keyboard
@@ -14,34 +9,19 @@ from traceback import format_exc as exc
 from ahk import AHK
 from ahk.directives import NoTrayIcon
 from sys import exit
-PROGRAMFILES = os.environ["PROGRAMFILES"]
-os.environ["AHK_PATH"] = f"{PROGRAMFILES}\AutoHotkey\AutoHotkey.exe"
 
-
-screen_width, screen_height = [(x.width, x.height) for x in get_monitors()][screen]
-x_signal, y_signal = int(0.359375 * screen_width), int(0.368055 * screen_height)  # Координаты индикатора найденного сигнала
-x_small_rad, y_small_rad = int(0.51875 * screen_width), int(0.73611 * screen_height)  # Координаты кнопки "Малая"
-x_med_rad, y_med_rad = int(0.5625 * screen_width), int(0.7361 * screen_height)  # Координаты кнопки "Средняя"
-x_m_tumbler, y_m_tumbler = int(0.703125 * screen_width), int(0.729166 * screen_height)  # Координаты тумблера начала сканирования
-x_s_ready, y_s_ready = int(0.33 * screen_width), int(0.44 * screen_height)  # Координаты окна сигнализирующего о найденном сигнале
-x_search, y_search = int(0.328125 * screen_width), int(0.528 * screen_height)  # Координаты кнопки "ПОИСК"
-
-
-x_first, y_first = int(0.2 * screen_width), int(0.25 * screen_height)  # Координаты 1 ячейки инвентаря противника
-x_inventory, y_first_inventory = int(0.177 * screen_width), int(0.12 * screen_height)  # Координаты 1 ячейки инвентаря противника
+from settings import *
+S = Settings()
 
 
 class SignalFinder:
     def __init__(self) -> None:
-        global lamps
-        self.lamps = lamps
         self.ahk = AHK(directives=[NoTrayIcon(apply_to_hotkeys_process=True)])
         self.win = self.ahk.win_get("STALCRAFT")
         if not self.win:
             exit("[Ошибка]: Не найдено окно STALCRAFT или игра не запущена")
 
         self.searching_active = False
-        #keyboard.add_hotkey(hotkey="v", callback=self.get_first)
         self.ahk.add_hotkey(keyname="f3", callback=self.manager)
         self.ahk.add_hotkey(keyname="=", callback=self.incr_lumps)
         self.ahk.add_hotkey(keyname="-", callback=self.decr_lumps)
@@ -132,11 +112,6 @@ class SignalFinder:
         # self.timer()
         return False
 
-    def incr_lumps(self):
-        self.lamps += 1
-        if self.lamps > 10:
-            self.lamps = 10
-        print(f"Сканирование до [{self.lamps}] лампочки")
 
     @staticmethod
     def timer():
@@ -147,26 +122,26 @@ class SignalFinder:
             sleep(1)
         print("\n")
 
+    def incr_lumps(self):
+        print(f"Сканирование до {S.lamp_to_stop} лампочки")
+        if S.lamp_to_stop+1 > 10:
+            return
+        S.set_value("lamp_to_stop", S.lamp_to_stop+1)
+
     def decr_lumps(self):
-        self.lamps -= 1
-        if self.lamps < 1:
-            self.lamps = 1
-        print(f"Сканирование до [{self.lamps}] лампочки")
+        print(f"Сканирование до {S.lamp_to_stop} лампочки")
+        if S.lamp_to_stop-1 < 0:
+            return
+        S.set_value("lamp_to_stop", S.lamp_to_stop-1)
 
     def reopen_suck(self):
         if self.searching_active == False:
             return
         self.win.send("x")
-        sleep(1.5)
+        sleep(S.reopen_time)
         if self.searching_active == False:
             return
         self.win.send("x")
-
-    def get_first(self):
-        print('Забрал 1 предмет')
-        sleep(0.15)
-        pyautogui.moveTo(x_first, y_first)
-        self.win.click(click_count=2)
 
 
 def main():
