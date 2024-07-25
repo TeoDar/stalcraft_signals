@@ -2,3 +2,4 @@ dist/
 .venv/
 build/
 main.spec
+1.py
