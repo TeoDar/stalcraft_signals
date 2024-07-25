@@ -6,9 +6,12 @@ import asyncio
 FILEPATH = "config.ini"
 
 PROGRAMFILES = environ["PROGRAMFILES"]
-environ["AHK_PATH"] = f"{PROGRAMFILES}\AutoHotkey\AutoHotkey.exe"
+ahk_path = f"{PROGRAMFILES}\AutoHotkey\AutoHotkey.exe"
+environ["AHK_PATH"] = ahk_path
 
 DEFAULT_CONFIG = {
+    "# Путь к AHK": None,
+    "ahk_path": ahk_path,
     "# Номер монитора на котором запущена игра если мониторов больше чем 1 (начиная с 0)": None,
     "monitor": "0",
     "# На какой лампочке останавливать поиск": None,
@@ -20,7 +23,7 @@ DEFAULT_CONFIG = {
     "# для игры в оконном режиме с рамкой на весь экран": None,
     " ": None,
     "# Координаты [X] и [Y] для:": None,
-    "# Индикатора сигнал": None,
+    "# Индикатора сигнала": None,
     "x_signal": "745",
     "y_signal": "435",
     "# Кнопки [Малая]": None,
@@ -30,18 +33,18 @@ DEFAULT_CONFIG = {
     "x_med_rad": "1160",
     "y_med_rad": "860",
     "# Тумблера начала сканирования": None,
-    "x_m_tumbler": "1445",
-    "y_m_tumbler": "860",
+    "x_tumbler": "1445",
+    "y_tumbler": "860",
     "# Зелёного индикатора найденного сигнала": None,
-    "x_s_ready": "680",
-    "y_s_ready": "530",
+    "x_ready": "680",
+    "y_ready": "530",
     "# Кнопки [Поиск]": None,
     "x_search": "680",
     "y_search": "630",
 }
 
 
-class Settings:
+class Configuration:
     def __init__(self) -> None:
         self.config = configparser.ConfigParser(allow_no_value=True)
         self.config.optionxform = str  # Для сохранения регистра записи коментариев
@@ -51,6 +54,7 @@ class Settings:
         else:
             self.config.read(FILEPATH, encoding="utf-8")
 
+        self.ahk_path = str(self.get("ahk_path"))
         self.lamp_to_stop = int(self.get("lamp_to_stop"))
         self.monitor = int(self.get("monitor"))
         self.reopen_time = float(self.get("reopen_time"))
@@ -60,10 +64,10 @@ class Settings:
         self.y_small_rad = int(self.get("y_small_rad"))
         self.x_med_rad = int(self.get("x_med_rad"))
         self.y_med_rad = int(self.get("y_med_rad"))
-        self.x_m_tumbler = int(self.get("x_m_tumbler"))
-        self.y_m_tumbler = int(self.get("y_m_tumbler"))
-        self.x_s_ready = int(self.get("x_s_ready"))
-        self.y_s_ready = int(self.get("y_s_ready"))
+        self.x_tumbler = int(self.get("x_tumbler"))
+        self.y_tumbler = int(self.get("y_tumbler"))
+        self.x_ready = int(self.get("x_ready"))
+        self.y_ready = int(self.get("y_ready"))
         self.x_search = int(self.get("x_search"))
         self.y_search = int(self.get("y_search"))
 
@@ -95,7 +99,7 @@ class Settings:
 
 
 def main():
-    Settings()
+    Configuration()
 
 
 if __name__ == "__main__":
