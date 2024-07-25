@@ -1,7 +1,7 @@
 # Для преобразования ui файла: python -m PyQt6.uic.pyuic -o ./app/interface.py -x ./app/interface.ui
 
 from PyQt6.QtGui import QDialog
-from ui_imagedialog import Ui_ImageDialog
+from ui_imagedialog import Ui_main_window
 
 
 def main():
@@ -11,7 +11,7 @@ if __name__ == "__main__":
     main()
 
 
-class ImageDialog(QDialog, Ui_ImageDialog):
+class ImageDialog(QDialog, Ui_main_window):
     def __init__(self):
         super().__init__()
 
