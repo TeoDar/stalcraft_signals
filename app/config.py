@@ -1,19 +1,17 @@
+import ctypes
 from os import path, environ
 import configparser
-import asyncio
 
 
 FILEPATH = "config.ini"
 
 PROGRAMFILES = environ["PROGRAMFILES"]
-ahk_path = f"{PROGRAMFILES}\AutoHotkey\AutoHotkey.exe"
+ahk_path = rf"{PROGRAMFILES}\AutoHotkey\v2\AutoHotkey.exe"
 environ["AHK_PATH"] = ahk_path
 
 DEFAULT_CONFIG = {
     "# Путь к AHK": None,
     "ahk_path": ahk_path,
-    "# Номер монитора на котором запущена игра если мониторов больше чем 1 (начиная с 0)": None,
-    "monitor": "0",
     "# На какой лампочке останавливать поиск": None,
     "lamp_to_stop": "6",
     "# Задержка в сек. между открытиями САК": None,
@@ -44,6 +42,10 @@ DEFAULT_CONFIG = {
 }
 
 
+def exception(error: str):
+    ctypes.windll.user32.MessageBoxW(0, error, "Error", 0)
+
+
 class Configuration:
     def __init__(self) -> None:
         self.config = configparser.ConfigParser(allow_no_value=True)
@@ -54,9 +56,16 @@ class Configuration:
         else:
             self.config.read(FILEPATH, encoding="utf-8")
 
+        try:
+            self.set_values_from_file()
+        except Exception:
+            exception("Ошибка чтения конфигурации.\nКонфигурационный файл был сброшен.")
+            self.init_config()
+            self.set_values_from_file()
+
+    def set_values_from_file(self):
         self.ahk_path = str(self.get("ahk_path"))
         self.lamp_to_stop = int(self.get("lamp_to_stop"))
-        self.monitor = int(self.get("monitor"))
         self.reopen_time = float(self.get("reopen_time"))
         self.x_signal = int(self.get("x_signal"))
         self.y_signal = int(self.get("y_signal"))
@@ -83,18 +92,20 @@ class Configuration:
             self.config.write(f)
 
     def set_value(self, key, value):
-        self.key = str(value)
-        self.config[key] = value
-        self.save_config()
+        try:
+            value = str(value)
+            self.key = value
+            self.config["CONFIG"][key] = value
+            self.save_config()
+        except Exception as e:
+            exception(f"Ошибка записи параметра конфигурации\n{e}")
 
     def get(self, key):
         try:
             return self.config["CONFIG"][key]
         except Exception:
             self.init_config()
-            print(
-                f"[ВНИМАНИЕ]: В конфигурационном файле не найден параметр [{key}]\nКонфиг был сброшен до стандартного."
-            )
+            exception(f"[ВНИМАНИЕ]: В конфигурационном файле не найден параметр [{key}]\nКонфиг был сброшен до стандартного.")
             return self.config["CONFIG"][key]
 
 

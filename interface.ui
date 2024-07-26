@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>250</height>
+    <width>586</width>
+    <height>579</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -25,7 +25,11 @@
    <enum>Qt::DefaultContextMenu</enum>
   </property>
   <property name="windowTitle">
-   <string>Stalcraft Signal Catcher</string>
+   <string>STALCRAFT SIGNAL CATHER</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>D:/Users/Teos/Downloads/radiation_8ptf8au848ft.svg</normaloff>D:/Users/Teos/Downloads/radiation_8ptf8au848ft.svg</iconset>
   </property>
   <property name="autoFillBackground">
    <bool>false</bool>
@@ -38,7 +42,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabs">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="search_tab">
        <attribute name="title">
@@ -68,7 +72,11 @@
          </widget>
         </item>
         <item row="1" column="0" rowspan="2">
-         <widget class="QTextBrowser" name="log"/>
+         <widget class="QTextEdit" name="log">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -102,133 +110,11 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>570</width>
-             <height>483</height>
+             <width>556</width>
+             <height>476</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_4">
-            <item row="1" column="0">
-             <layout class="QGridLayout" name="main_config_grid">
-              <property name="verticalSpacing">
-               <number>7</number>
-              </property>
-              <item row="3" column="2">
-               <widget class="QDoubleSpinBox" name="reopen_time">
-                <property name="maximum">
-                 <double>10.000000000000000</double>
-                </property>
-                <property name="singleStep">
-                 <double>0.100000000000000</double>
-                </property>
-                <property name="value">
-                 <double>1.500000000000000</double>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="1">
-               <widget class="QSlider" name="lamp_to_stop_slider">
-                <property name="maximum">
-                 <number>10</number>
-                </property>
-                <property name="value">
-                 <number>6</number>
-                </property>
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="lamp_to_stop_label">
-                <property name="text">
-                 <string>Поиск до лампочки:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="0" colspan="2">
-               <widget class="QLabel" name="reopen_time_label">
-                <property name="text">
-                 <string>Задержка в сек. между открытиями САК</string>
-                </property>
-                <property name="wordWrap">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="0">
-               <widget class="QLabel" name="ahk_path_label">
-                <property name="text">
-                 <string>Путь к AHK</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="2">
-               <widget class="QLabel" name="lamp_to_stop">
-                <property name="font">
-                 <font>
-                  <pointsize>9</pointsize>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                  <underline>false</underline>
-                 </font>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true"/>
-                </property>
-                <property name="frameShape">
-                 <enum>QFrame::Box</enum>
-                </property>
-                <property name="lineWidth">
-                 <number>1</number>
-                </property>
-                <property name="text">
-                 <string>6</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="margin">
-                 <number>0</number>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1" colspan="2">
-               <widget class="QLineEdit" name="lineEdit">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>16777215</width>
-                  <height>25</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>C:\Program Files\AutoHotkey\AutoHotkey.exe</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="2">
-               <widget class="QComboBox" name="monitor"/>
-              </item>
-              <item row="1" column="0" colspan="2">
-               <widget class="QLabel" name="monitor_label">
-                <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Монитор, на котором открыт Stalcraft&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-                </property>
-                <property name="wordWrap">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
             <item row="3" column="0">
              <layout class="QGridLayout" name="coords_grid" rowstretch="0,0,0,0,0,0">
               <item row="2" column="0">
@@ -246,33 +132,17 @@
               </item>
               <item row="0" column="1">
                <widget class="QPushButton" name="signal_set">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>Установить</string>
                 </property>
                 <property name="shortcut">
                  <string/>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="5">
-               <widget class="QLineEdit" name="signal_y">
-                <property name="minimumSize">
-                 <size>
-                  <width>35</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="inputMask">
-                 <string>9999</string>
-                </property>
-                <property name="text">
-                 <string>435</string>
-                </property>
-                <property name="frame">
-                 <bool>true</bool>
-                </property>
-                <property name="clearButtonEnabled">
-                 <bool>false</bool>
                 </property>
                </widget>
               </item>
@@ -302,41 +172,6 @@
                 </property>
                </widget>
               </item>
-              <item row="4" column="0">
-               <widget class="QLabel" name="ready_label">
-                <property name="text">
-                 <string>Индикатор найденного сигнала</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-                </property>
-                <property name="wordWrap">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="3">
-               <widget class="QLineEdit" name="ready_x">
-                <property name="minimumSize">
-                 <size>
-                  <width>35</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="inputMask">
-                 <string>9999</string>
-                </property>
-                <property name="text">
-                 <string>680</string>
-                </property>
-                <property name="frame">
-                 <bool>true</bool>
-                </property>
-                <property name="clearButtonEnabled">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
               <item row="5" column="0">
                <widget class="QLabel" name="search_label">
                 <property name="text">
@@ -350,17 +185,29 @@
                 </property>
                </widget>
               </item>
-              <item row="4" column="2">
-               <widget class="QLabel" name="ready_x_label">
+              <item row="4" column="0">
+               <widget class="QLabel" name="ready_label">
                 <property name="text">
-                 <string>x_signal</string>
+                 <string>Индикатор найденного сигнала</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                </property>
+                <property name="wordWrap">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
-              <item row="5" column="2">
-               <widget class="QLabel" name="search_x_label">
+              <item row="4" column="4">
+               <widget class="QLabel" name="y_ready_label">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
-                 <string>x_signal</string>
+                 <string>y_ready</string>
                 </property>
                </widget>
               </item>
@@ -377,168 +224,53 @@
                 </property>
                </widget>
               </item>
-              <item row="4" column="4">
-               <widget class="QLabel" name="ready_y_label">
+              <item row="4" column="2">
+               <widget class="QLabel" name="x_ready_label">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
-                 <string>y_signal</string>
+                 <string>x_ready</string>
                 </property>
                </widget>
               </item>
-              <item row="5" column="3">
-               <widget class="QLineEdit" name="search_x">
-                <property name="minimumSize">
-                 <size>
-                  <width>35</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="inputMask">
-                 <string>9999</string>
+              <item row="5" column="2">
+               <widget class="QLabel" name="x_search_label">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
                 </property>
                 <property name="text">
-                 <string>680</string>
-                </property>
-                <property name="frame">
-                 <bool>true</bool>
-                </property>
-                <property name="clearButtonEnabled">
-                 <bool>false</bool>
+                 <string>x_search</string>
                 </property>
                </widget>
               </item>
               <item row="5" column="4">
-               <widget class="QLabel" name="search_y_label">
-                <property name="text">
-                 <string>y_signal</string>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="5">
-               <widget class="QLineEdit" name="ready_y">
-                <property name="minimumSize">
-                 <size>
-                  <width>35</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="inputMask">
-                 <string>9999</string>
+               <widget class="QLabel" name="y_search_label">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
                 </property>
                 <property name="text">
-                 <string>530</string>
-                </property>
-                <property name="frame">
-                 <bool>true</bool>
-                </property>
-                <property name="clearButtonEnabled">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="5" column="5">
-               <widget class="QLineEdit" name="search_y">
-                <property name="minimumSize">
-                 <size>
-                  <width>35</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="inputMask">
-                 <string>9999</string>
-                </property>
-                <property name="text">
-                 <string>630</string>
-                </property>
-                <property name="frame">
-                 <bool>true</bool>
-                </property>
-                <property name="clearButtonEnabled">
-                 <bool>false</bool>
+                 <string>y_search</string>
                 </property>
                </widget>
               </item>
               <item row="0" column="2">
-               <widget class="QLabel" name="signal_x_label">
-                <property name="text">
-                 <string>x_signal</string>
+               <widget class="QLabel" name="x_signal_label">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
                 </property>
-               </widget>
-              </item>
-              <item row="0" column="3">
-               <widget class="QLineEdit" name="signal_x">
-                <property name="minimumSize">
-                 <size>
-                  <width>35</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="inputMask">
-                 <string>9999</string>
-                </property>
-                <property name="text">
-                 <string>745</string>
-                </property>
-                <property name="frame">
-                 <bool>true</bool>
-                </property>
-                <property name="clearButtonEnabled">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="4">
-               <widget class="QLabel" name="signal_y_label">
-                <property name="text">
-                 <string>y_signal</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="5">
-               <widget class="QLineEdit" name="small_rad_y">
-                <property name="minimumSize">
-                 <size>
-                  <width>35</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="inputMask">
-                 <string>9999</string>
-                </property>
-                <property name="text">
-                 <string>860</string>
-                </property>
-                <property name="frame">
-                 <bool>true</bool>
-                </property>
-                <property name="clearButtonEnabled">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="3">
-               <widget class="QLineEdit" name="small_rad_x">
-                <property name="minimumSize">
-                 <size>
-                  <width>35</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="inputMask">
-                 <string>9999</string>
-                </property>
-                <property name="text">
-                 <string>1070</string>
-                </property>
-                <property name="frame">
-                 <bool>true</bool>
-                </property>
-                <property name="clearButtonEnabled">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="2">
-               <widget class="QLabel" name="small_rad_x_label">
                 <property name="text">
                  <string>x_signal</string>
                 </property>
@@ -546,6 +278,12 @@
               </item>
               <item row="1" column="1">
                <widget class="QPushButton" name="small_rad_set">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>Установить</string>
                 </property>
@@ -554,15 +292,66 @@
                 </property>
                </widget>
               </item>
-              <item row="2" column="4">
-               <widget class="QLabel" name="med_rad_y_label">
+              <item row="0" column="4">
+               <widget class="QLabel" name="y_signal_label">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>y_signal</string>
                 </property>
                </widget>
               </item>
+              <item row="1" column="2">
+               <widget class="QLabel" name="x_small_rad_label">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>x_small_rad</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="4">
+               <widget class="QLabel" name="y_med_rad_label">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>y_med_rad</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="2">
+               <widget class="QLabel" name="x_med_rad_label">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>x_med_rad</string>
+                </property>
+               </widget>
+              </item>
               <item row="2" column="1">
                <widget class="QPushButton" name="med_rad_set">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>Установить</string>
                 </property>
@@ -572,65 +361,26 @@
                </widget>
               </item>
               <item row="1" column="4">
-               <widget class="QLabel" name="small_rad_y_label">
+               <widget class="QLabel" name="y_small_rad_label">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
-                 <string>y_signal</string>
+                 <string>y_small_rad</string>
                 </property>
                </widget>
               </item>
-              <item row="2" column="5">
-               <widget class="QLineEdit" name="med_rad_y">
-                <property name="minimumSize">
-                 <size>
-                  <width>35</width>
-                  <height>0</height>
-                 </size>
+              <item row="4" column="1">
+               <widget class="QPushButton" name="ready_set">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
                 </property>
-                <property name="inputMask">
-                 <string>9999</string>
-                </property>
-                <property name="text">
-                 <string>860</string>
-                </property>
-                <property name="frame">
-                 <bool>true</bool>
-                </property>
-                <property name="clearButtonEnabled">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="2">
-               <widget class="QLabel" name="med_rad_x_label">
-                <property name="text">
-                 <string>x_signal</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="3">
-               <widget class="QLineEdit" name="med_rad_x">
-                <property name="minimumSize">
-                 <size>
-                  <width>35</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="inputMask">
-                 <string>9999</string>
-                </property>
-                <property name="text">
-                 <string>1160</string>
-                </property>
-                <property name="frame">
-                 <bool>true</bool>
-                </property>
-                <property name="clearButtonEnabled">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="1">
-               <widget class="QPushButton" name="tumbler_set">
                 <property name="text">
                  <string>Установить</string>
                 </property>
@@ -640,75 +390,42 @@
                </widget>
               </item>
               <item row="3" column="2">
-               <widget class="QLabel" name="tumbler_x_label">
+               <widget class="QLabel" name="x_tumbler_label">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
-                 <string>x_signal</string>
+                 <string>x_tumbler</string>
                 </property>
                </widget>
               </item>
-              <item row="3" column="5">
-               <widget class="QLineEdit" name="tumbler_y">
-                <property name="minimumSize">
-                 <size>
-                  <width>35</width>
-                  <height>0</height>
-                 </size>
+              <item row="3" column="1">
+               <widget class="QPushButton" name="tumbler_set">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
                 </property>
-                <property name="inputMask">
-                 <string>9999</string>
-                </property>
-                <property name="text">
-                 <string>860</string>
-                </property>
-                <property name="frame">
-                 <bool>true</bool>
-                </property>
-                <property name="clearButtonEnabled">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="1">
-               <widget class="QPushButton" name="ready_set">
                 <property name="text">
                  <string>Установить</string>
                 </property>
                 <property name="shortcut">
                  <string/>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="3">
-               <widget class="QLineEdit" name="tumbler_x">
-                <property name="minimumSize">
-                 <size>
-                  <width>35</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="inputMask">
-                 <string>9999</string>
-                </property>
-                <property name="text">
-                 <string>1445</string>
-                </property>
-                <property name="frame">
-                 <bool>true</bool>
-                </property>
-                <property name="clearButtonEnabled">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="4">
-               <widget class="QLabel" name="tumbler_y_label">
-                <property name="text">
-                 <string>y_signal</string>
                 </property>
                </widget>
               </item>
               <item row="5" column="1">
                <widget class="QPushButton" name="search_set">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>Установить</string>
                 </property>
@@ -717,35 +434,212 @@
                 </property>
                </widget>
               </item>
+              <item row="3" column="4">
+               <widget class="QLabel" name="y_tumbler_label">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>y_tumbler</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="3">
+               <widget class="QSpinBox" name="x_med_rad">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximum">
+                 <number>9999</number>
+                </property>
+                <property name="displayIntegerBase">
+                 <number>10</number>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="3">
+               <widget class="QSpinBox" name="x_tumbler">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximum">
+                 <number>9999</number>
+                </property>
+                <property name="displayIntegerBase">
+                 <number>10</number>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="3">
+               <widget class="QSpinBox" name="x_signal">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximum">
+                 <number>9999</number>
+                </property>
+                <property name="displayIntegerBase">
+                 <number>10</number>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="3">
+               <widget class="QSpinBox" name="x_ready">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximum">
+                 <number>9999</number>
+                </property>
+                <property name="displayIntegerBase">
+                 <number>10</number>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="3">
+               <widget class="QSpinBox" name="x_small_rad">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximum">
+                 <number>9999</number>
+                </property>
+                <property name="displayIntegerBase">
+                 <number>10</number>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="3">
+               <widget class="QSpinBox" name="x_search">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximum">
+                 <number>9999</number>
+                </property>
+                <property name="displayIntegerBase">
+                 <number>10</number>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="5">
+               <widget class="QSpinBox" name="y_signal">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximum">
+                 <number>9999</number>
+                </property>
+                <property name="displayIntegerBase">
+                 <number>10</number>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="5">
+               <widget class="QSpinBox" name="y_small_rad">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximum">
+                 <number>9999</number>
+                </property>
+                <property name="displayIntegerBase">
+                 <number>10</number>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="5">
+               <widget class="QSpinBox" name="y_med_rad">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximum">
+                 <number>9999</number>
+                </property>
+                <property name="displayIntegerBase">
+                 <number>10</number>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="5">
+               <widget class="QSpinBox" name="y_tumbler">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximum">
+                 <number>9999</number>
+                </property>
+                <property name="displayIntegerBase">
+                 <number>10</number>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="5">
+               <widget class="QSpinBox" name="y_ready">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximum">
+                 <number>9999</number>
+                </property>
+                <property name="displayIntegerBase">
+                 <number>10</number>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="5">
+               <widget class="QSpinBox" name="y_search">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximum">
+                 <number>9999</number>
+                </property>
+                <property name="displayIntegerBase">
+                 <number>10</number>
+                </property>
+               </widget>
+              </item>
              </layout>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="label">
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>60</height>
-               </size>
-              </property>
-              <property name="styleSheet">
-               <string notr="true"/>
-              </property>
-              <property name="frameShape">
-               <enum>QFrame::Box</enum>
-              </property>
-              <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Координаты [X] и [Y] в пикселях для индикаторов САКа.&lt;/p&gt;&lt;p&gt;ВНИМАНИЕ! Применяются для игры в оконном режиме с рамкой на весь экран.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignJustify|Qt::AlignVCenter</set>
-              </property>
-              <property name="wordWrap">
-               <bool>true</bool>
-              </property>
-              <property name="margin">
-               <number>5</number>
-              </property>
-             </widget>
             </item>
             <item row="0" column="0">
              <widget class="QLabel" name="label_3">
@@ -780,12 +674,156 @@
                <set>Qt::AlignJustify|Qt::AlignVCenter</set>
               </property>
               <property name="wordWrap">
-               <bool>false</bool>
+               <bool>true</bool>
               </property>
               <property name="margin">
                <number>5</number>
               </property>
              </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label">
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>60</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::Box</enum>
+              </property>
+              <property name="text">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Координаты [X] и [Y] в пикселях для индикаторов САКа.&lt;/p&gt;&lt;p&gt;ВНИМАНИЕ! Применяются для игры в оконном режиме с рамкой на весь экран.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignJustify|Qt::AlignVCenter</set>
+              </property>
+              <property name="wordWrap">
+               <bool>true</bool>
+              </property>
+              <property name="margin">
+               <number>5</number>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <layout class="QGridLayout" name="main_config_grid">
+              <property name="verticalSpacing">
+               <number>7</number>
+              </property>
+              <item row="2" column="2">
+               <widget class="QDoubleSpinBox" name="reopen_time">
+                <property name="maximum">
+                 <double>10.000000000000000</double>
+                </property>
+                <property name="singleStep">
+                 <double>0.100000000000000</double>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="lamp_to_stop_label">
+                <property name="text">
+                 <string>Поиск до лампочки:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="2">
+               <widget class="QLabel" name="lamp_to_stop">
+                <property name="font">
+                 <font>
+                  <pointsize>9</pointsize>
+                  <weight>50</weight>
+                  <bold>false</bold>
+                  <underline>false</underline>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true"/>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::Box</enum>
+                </property>
+                <property name="lineWidth">
+                 <number>1</number>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+                <property name="margin">
+                 <number>0</number>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0">
+               <widget class="QLabel" name="ahk_path_label">
+                <property name="text">
+                 <string>Путь к AHK</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1" colspan="2">
+               <widget class="QLineEdit" name="ahk_path">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>25</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0" colspan="2">
+               <widget class="QLabel" name="reopen_time_label">
+                <property name="text">
+                 <string>Задержка в сек. между открытиями САК</string>
+                </property>
+                <property name="wordWrap">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QSlider" name="lamp_to_stop_slider">
+                <property name="maximum">
+                 <number>10</number>
+                </property>
+                <property name="value">
+                 <number>5</number>
+                </property>
+                <property name="sliderPosition">
+                 <number>5</number>
+                </property>
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item row="4" column="0">
+             <spacer name="verticalSpacer">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Expanding</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+             </spacer>
             </item>
            </layout>
           </widget>
@@ -807,8 +845,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>400</width>
-     <height>23</height>
+     <width>586</width>
+     <height>26</height>
     </rect>
    </property>
    <property name="font">
@@ -826,7 +864,7 @@
      <string>Меню</string>
     </property>
     <addaction name="menu_repository_open"/>
-    <addaction name="menu_about"/>
+    <addaction name="menu_create_issue"/>
    </widget>
    <addaction name="menu"/>
   </widget>
@@ -869,6 +907,11 @@
     <font>
      <family>Times New Roman</family>
     </font>
+   </property>
+  </action>
+  <action name="menu_create_issue">
+   <property name="text">
+    <string>Связаться с разработчиком</string>
    </property>
   </action>
  </widget>

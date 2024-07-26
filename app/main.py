@@ -1,26 +1,27 @@
-# Для преобразования ui файла: python -m PyQt6.uic.pyuic -o ./app/interface.py -x ./app/interface.ui
+# Для преобразования ui файла: python -m PyQt6.uic.pyuic -o ./app/window.py -x interface.ui
 
-from PyQt6.QtGui import QDialog
-from ui_imagedialog import Ui_main_window
+import ctypes
+import sys
+from PyQt6.QtWidgets import QApplication
+from config import Configuration
+from window_config import Interface
+from signal_finder import SignalFinder
+
+
+class App:
+    def __init__(self) -> None:
+        app = QApplication([])
+
+        conf = Configuration()
+        window = Interface(conf)
+
+        window.show()
+        app.exec()
 
 
 def main():
-    pass
+    App()
+
 
 if __name__ == "__main__":
     main()
-
-
-class ImageDialog(QDialog, Ui_main_window):
-    def __init__(self):
-        super().__init__()
-
-        # Set up the user interface from Designer.
-        self.setupUi(self)
-
-        # Make some local modifications.
-        self.colorDepthCombo.addItem("2 colors (1 bit per pixel)")
-
-        # Connect up the buttons.
-        self.okButton.clicked.connect(self.accept)
-        self.cancelButton.clicked.connect(self.reject)

@@ -3,3 +3,5 @@ dist/
 build/
 main.spec
 1.py
+.vscode
+output
