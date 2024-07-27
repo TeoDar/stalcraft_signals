@@ -1,34 +1,50 @@
 # Для пересборки UI python -m PyQt6.uic.pyuic -o ./app/window.py -x interface.ui
 
-from PyQt6.QtWidgets import QMainWindow
-from PyQt6.QtGui import QIcon
+from PyQt6.QtWidgets import QMainWindow, QSpinBox
+from PyQt6.QtGui import QIcon, QGuiApplication
+from PyQt6.QtCore import Qt
+from PyQt6.QtTest import QTest
 from window import Ui_main_window
 from config import Configuration
-from signal_finder import SignalFinder
+from signal_catcher import SignalCatcher
 from logger import Logger
 import webbrowser
+import win32api
+from ctypes import windll, wintypes, byref
+import py_win_keyboard_layout
 
 
 class Interface(QMainWindow, Ui_main_window):
     def __init__(self, conf: Configuration):
-        super().__init__()
         self.conf = conf
-        logger = Logger(self)
-        self.finder = SignalFinder(conf, logger)
-
+        super().__init__()
         # Set up the user interface from Designer.
         self.setupUi(self)
         # Настройки всех функций окна
         self.configure()
 
+        self.logger = Logger(self.log)
+        self.cather = SignalCatcher(conf, self.logger)
+        self.cathing = False
+        # Конфигурация кнопки "ПОИСК"
+        self.search.clicked.connect(self.start_search)
+
+    def reconfigure(self):
+        self.conf.init_config()
+        self.close()
+
     def configure(self):
         # Window
         self.setWindowIcon(QIcon("icon.ico"))
+        self.setWindowFlags(Qt.WindowType.WindowStaysOnTopHint)
+        self.resize(self.conf.width, self.conf.height)
+        self.move_to_right_bottom()
+        self.pb.hide()
         # Menu
         self.menu_repository_open.triggered.connect(lambda: webbrowser.open("https://github.com/TeoDar/stalcraft_signals"))
         self.menu_create_issue.triggered.connect(lambda: webbrowser.open("https://github.com/TeoDar/stalcraft_signals/issues/new/choose"))
-        # Кнопки и конфигурация
-        self.search.clicked.connect(self.finder.find)
+        self.menu_restore_settings.triggered.connect(self.reconfigure)
+        #  Кнопки и конфигурация #
         # Путь к AHK
         self.ahk_path.setText(self.conf.ahk_path)
         self.ahk_path.editingFinished.connect(lambda: self.conf.set_value(key="ahk_path", value=self.ahk_path.text()))
@@ -68,3 +84,77 @@ class Interface(QMainWindow, Ui_main_window):
         self.x_search.valueChanged.connect(lambda: self.conf.set_value(key="x_search", value=self.x_search.value()))
         self.y_search.setValue(self.conf.y_search)
         self.y_search.valueChanged.connect(lambda: self.conf.set_value(key="y_search", value=self.y_search.value()))
+
+        # Кнопки установить
+        self.signal_set.clicked.connect(lambda: self.get_coords_for(self.x_signal, self.y_signal, "x_signal", "y_signal"))
+        self.small_rad_set.clicked.connect(lambda: self.get_coords_for(self.x_small_rad, self.y_small_rad, "x_small_rad", "y_small_rad"))
+        self.med_rad_set.clicked.connect(lambda: self.get_coords_for(self.x_med_rad, self.y_med_rad, "x_med_rad", "y_med_rad"))
+        self.tumbler_set.clicked.connect(lambda: self.get_coords_for(self.x_tumbler, self.y_tumbler, "x_tumbler", "y_tumbler"))
+        self.ready_set.clicked.connect(lambda: self.get_coords_for(self.x_ready, self.y_ready, "x_ready", "y_ready"))
+        self.search_set.clicked.connect(lambda: self.get_coords_for(self.x_search, self.y_search, "x_search", "y_search"))
+
+    def before_search(self):
+        self.config_tab.setEnabled(False)
+        self.search.setText("Идёт поиск")
+        self.pb.show()
+
+    def after_search(self):
+        self.pb.hide()
+        self.search.setText("Поиск сигнала")
+        self.config_tab.setEnabled(True)
+
+    def start_search(self):
+        # Смена раскладки на Английскую
+        py_win_keyboard_layout.change_foreground_window_keyboard_layout(0x04090409)
+        if not self.cathing:
+            self.before_search()
+            self.cathing = True
+            self.cather.catch()
+        else:
+            self.logger.put("[Остановка сканирования]")
+            self.cathing = False
+            self.cather.stop()
+        self.after_search()
+
+    def move_to_right_bottom(self):
+        qr = self.frameGeometry()
+        cp = QGuiApplication.primaryScreen().availableGeometry().bottomRight()
+        qr.moveBottomRight(cp)
+        self.move(qr.topLeft())
+
+    def get_coords_for(self, x_widget: QSpinBox, y_widget: QSpinBox, x_key, y_key):
+        coords_not_getted = True
+        clicked = None
+        x, y = x_widget.value(), y_widget.value()
+        while coords_not_getted:
+            lkm_clicked = win32api.GetKeyState(0x01)
+            if lkm_clicked < 0:
+                clicked = True
+                x, y = self.get_cursor_pos()
+                x_widget.setValue(x)
+                self.conf.set_value(key=x_key, value=x)
+                y_widget.setValue(y)
+                self.conf.set_value(key=y_key, value=y)
+            else:
+                if clicked == True:
+                    coords_not_getted = False
+            QTest.qWait(100)
+        return x, y
+
+    def get_cursor_pos(self):
+        cursor = wintypes.POINT()
+        windll.user32.GetCursorPos(byref(cursor))
+        return cursor.x, cursor.y
+
+    ##########################################
+    ####    Переопределение событий QT    ####
+    ##########################################
+
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key.Key_Escape:
+            self.close()
+
+    def resizeEvent(self, event):
+        g = self.geometry()
+        self.conf.set_value(key="width", value=g.width())
+        self.conf.set_value(key="height", value=g.height())

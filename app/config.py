@@ -10,6 +10,9 @@ ahk_path = rf"{PROGRAMFILES}\AutoHotkey\v2\AutoHotkey.exe"
 environ["AHK_PATH"] = ahk_path
 
 DEFAULT_CONFIG = {
+    "# Размер окна": None,
+    "width": "400",
+    "height": "250",
     "# Путь к AHK": None,
     "ahk_path": ahk_path,
     "# На какой лампочке останавливать поиск": None,
@@ -64,6 +67,8 @@ class Configuration:
             self.set_values_from_file()
 
     def set_values_from_file(self):
+        self.width = int(self.get("width"))
+        self.height = int(self.get("height"))
         self.ahk_path = str(self.get("ahk_path"))
         self.lamp_to_stop = int(self.get("lamp_to_stop"))
         self.reopen_time = float(self.get("reopen_time"))
@@ -87,9 +92,13 @@ class Configuration:
         self.config["CONFIG"] = DEFAULT_CONFIG
         self.save_config()
 
-    def save_config(self):
-        with open(FILEPATH, "w+", encoding="utf-8") as f:
-            self.config.write(f)
+    def get(self, key):
+        try:
+            return self.config["CONFIG"][key]
+        except Exception:
+            self.init_config()
+            exception(f"[ВНИМАНИЕ]: В конфигурационном файле не найден параметр [{key}]\nКонфиг был сброшен до стандартного.")
+            return self.config["CONFIG"][key]
 
     def set_value(self, key, value):
         try:
@@ -100,13 +109,9 @@ class Configuration:
         except Exception as e:
             exception(f"Ошибка записи параметра конфигурации\n{e}")
 
-    def get(self, key):
-        try:
-            return self.config["CONFIG"][key]
-        except Exception:
-            self.init_config()
-            exception(f"[ВНИМАНИЕ]: В конфигурационном файле не найден параметр [{key}]\nКонфиг был сброшен до стандартного.")
-            return self.config["CONFIG"][key]
+    def save_config(self):
+        with open(FILEPATH, "w+", encoding="utf-8") as f:
+            self.config.write(f)
 
 
 def main():

@@ -5,3 +5,6 @@ pyqt6
 ahk
 pyautogui
 keyboard
+pywin32
+
+py_win_keyboard_layout
