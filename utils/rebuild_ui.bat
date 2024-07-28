@@ -1,0 +1,1 @@
+python -m PyQt6.uic.pyuic -o ./app/window.py -x interface.ui
