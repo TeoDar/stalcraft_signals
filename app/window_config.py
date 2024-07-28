@@ -1,5 +1,6 @@
 # Для пересборки UI python -m PyQt6.uic.pyuic -o ./app/window.py -x interface.ui
 
+from PyQt6.QtWidgets import QApplication
 from PyQt6.QtWidgets import QMainWindow, QSpinBox
 from PyQt6.QtGui import QIcon, QGuiApplication
 from PyQt6.QtCore import Qt
@@ -15,16 +16,17 @@ import py_win_keyboard_layout
 
 
 class Interface(QMainWindow, Ui_main_window):
-    def __init__(self, conf: Configuration):
+    def __init__(self, app: QApplication, conf: Configuration):
         self.conf = conf
         super().__init__()
         # Set up the user interface from Designer.
         self.setupUi(self)
         # Настройки всех функций окна
         self.configure()
+        app.focusChanged.connect(self.onFocusChanged)
 
-        self.logger = Logger(self.log)
-        self.cather = SignalCatcher(conf, self.logger)
+        self.logger = Logger(self)
+        self.catcher = SignalCatcher(conf, self.logger)
         self.cathing = False
         # Конфигурация кнопки "ПОИСК"
         self.search.clicked.connect(self.start_search)
@@ -109,11 +111,11 @@ class Interface(QMainWindow, Ui_main_window):
         if not self.cathing:
             self.before_search()
             self.cathing = True
-            self.cather.catch()
+            self.catcher.catch()
         else:
             self.logger.put("[Остановка сканирования]")
-            self.cathing = False
-            self.cather.stop()
+            self.catcher.stop()
+        self.cathing = False
         self.after_search()
 
     def move_to_right_bottom(self):
@@ -130,7 +132,7 @@ class Interface(QMainWindow, Ui_main_window):
             lkm_clicked = win32api.GetKeyState(0x01)
             if lkm_clicked < 0:
                 clicked = True
-                x, y = self.get_cursor_pos()
+                x, y = self.catcher.get_mouse_coords()
                 x_widget.setValue(x)
                 self.conf.set_value(key=x_key, value=x)
                 y_widget.setValue(y)
@@ -140,11 +142,6 @@ class Interface(QMainWindow, Ui_main_window):
                     coords_not_getted = False
             QTest.qWait(100)
         return x, y
-
-    def get_cursor_pos(self):
-        cursor = wintypes.POINT()
-        windll.user32.GetCursorPos(byref(cursor))
-        return cursor.x, cursor.y
 
     ##########################################
     ####    Переопределение событий QT    ####
@@ -158,3 +155,9 @@ class Interface(QMainWindow, Ui_main_window):
         g = self.geometry()
         self.conf.set_value(key="width", value=g.width())
         self.conf.set_value(key="height", value=g.height())
+
+    def onFocusChanged(self):
+        if self.isActiveWindow():
+            self.setWindowOpacity(1)
+        else:
+            self.setWindowOpacity(0.5)

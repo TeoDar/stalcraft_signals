@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>302</height>
+    <width>493</width>
+    <height>351</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -160,8 +160,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>349</width>
-             <height>554</height>
+             <width>442</width>
+             <height>513</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_4">
@@ -568,6 +568,12 @@
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
+                <property name="suffix">
+                 <string> px</string>
+                </property>
+                <property name="prefix">
+                 <string/>
+                </property>
                 <property name="maximum">
                  <number>9999</number>
                 </property>
@@ -600,6 +606,12 @@
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
+                <property name="suffix">
+                 <string> px</string>
+                </property>
+                <property name="prefix">
+                 <string/>
+                </property>
                 <property name="maximum">
                  <number>9999</number>
                 </property>
@@ -615,6 +627,12 @@
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
+                </property>
+                <property name="suffix">
+                 <string> px</string>
+                </property>
+                <property name="prefix">
+                 <string/>
                 </property>
                 <property name="maximum">
                  <number>9999</number>
@@ -632,6 +650,12 @@
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
+                <property name="suffix">
+                 <string> px</string>
+                </property>
+                <property name="prefix">
+                 <string/>
+                </property>
                 <property name="maximum">
                  <number>9999</number>
                 </property>
@@ -647,6 +671,12 @@
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
+                </property>
+                <property name="suffix">
+                 <string> px</string>
+                </property>
+                <property name="prefix">
+                 <string/>
                 </property>
                 <property name="maximum">
                  <number>9999</number>
@@ -664,6 +694,12 @@
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
+                <property name="suffix">
+                 <string> px</string>
+                </property>
+                <property name="prefix">
+                 <string/>
+                </property>
                 <property name="maximum">
                  <number>9999</number>
                 </property>
@@ -679,6 +715,12 @@
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
+                </property>
+                <property name="suffix">
+                 <string> px</string>
+                </property>
+                <property name="prefix">
+                 <string/>
                 </property>
                 <property name="maximum">
                  <number>9999</number>
@@ -696,6 +738,12 @@
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
+                <property name="suffix">
+                 <string> px</string>
+                </property>
+                <property name="prefix">
+                 <string/>
+                </property>
                 <property name="maximum">
                  <number>9999</number>
                 </property>
@@ -711,6 +759,12 @@
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
+                </property>
+                <property name="suffix">
+                 <string> px</string>
+                </property>
+                <property name="prefix">
+                 <string/>
                 </property>
                 <property name="maximum">
                  <number>9999</number>
@@ -728,6 +782,12 @@
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
+                <property name="suffix">
+                 <string> px</string>
+                </property>
+                <property name="prefix">
+                 <string/>
+                </property>
                 <property name="maximum">
                  <number>9999</number>
                 </property>
@@ -744,6 +804,12 @@
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
+                <property name="suffix">
+                 <string> px</string>
+                </property>
+                <property name="prefix">
+                 <string/>
+                </property>
                 <property name="maximum">
                  <number>9999</number>
                 </property>
@@ -759,6 +825,12 @@
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
+                </property>
+                <property name="suffix">
+                 <string> px</string>
+                </property>
+                <property name="prefix">
+                 <string/>
                 </property>
                 <property name="maximum">
                  <number>9999</number>
@@ -793,11 +865,14 @@
               </property>
               <item row="2" column="2">
                <widget class="QDoubleSpinBox" name="reopen_time">
-                <property name="maximum">
-                 <double>10.000000000000000</double>
+                <property name="suffix">
+                 <string> мс</string>
                 </property>
-                <property name="singleStep">
-                 <double>0.100000000000000</double>
+                <property name="decimals">
+                 <number>0</number>
+                </property>
+                <property name="maximum">
+                 <double>10000.000000000000000</double>
                 </property>
                </widget>
               </item>
@@ -913,7 +988,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>400</width>
+     <width>493</width>
      <height>26</height>
     </rect>
    </property>

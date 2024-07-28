@@ -7,7 +7,7 @@
   },
   {
    "optionDest": "filenames",
-   "value": "C:/PROJECTS/stalcraft_signals/app/main.py"
+   "value": "D:/PROJECTS/stalcraft_signals/app/main.py"
   },
   {
    "optionDest": "onefile",
@@ -19,11 +19,11 @@
   },
   {
    "optionDest": "icon_file",
-   "value": "C:/PROJECTS/stalcraft_signals/icon.ico"
+   "value": "D:/PROJECTS/stalcraft_signals/icon.ico"
   },
   {
    "optionDest": "name",
-   "value": "SIGNAL CATHER"
+   "value": "SIGNAL CATCHER"
   },
   {
    "optionDest": "clean_build",
@@ -59,7 +59,11 @@
   },
   {
    "optionDest": "datas",
-   "value": "C:/PROJECTS/stalcraft_signals/icon.ico;."
+   "value": "D:/PROJECTS/stalcraft_signals/res;res/"
+  },
+  {
+   "optionDest": "datas",
+   "value": "D:/PROJECTS/stalcraft_signals/icon.ico;."
   }
  ],
  "nonPyinstallerOptions": {

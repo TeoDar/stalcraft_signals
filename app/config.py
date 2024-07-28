@@ -11,37 +11,37 @@ environ["AHK_PATH"] = ahk_path
 
 DEFAULT_CONFIG = {
     "# Размер окна": None,
-    "width": "400",
-    "height": "250",
+    "width": "475",
+    "height": "275",
     "# Путь к AHK": None,
     "ahk_path": ahk_path,
     "# На какой лампочке останавливать поиск": None,
     "lamp_to_stop": "6",
     "# Задержка в сек. между открытиями САК": None,
-    "reopen_time": "1.5",
+    "reopen_time": "1500",
     "": None,
     "# Стандартные координаты для индикаторов под монитор 2560х1440,": None,
     "# для игры в оконном режиме с рамкой на весь экран": None,
     " ": None,
     "# Координаты [X] и [Y] для:": None,
     "# Индикатора сигнала": None,
-    "x_signal": "745",
-    "y_signal": "435",
+    "x_signal": "1010",
+    "y_signal": "545",
     "# Кнопки [Малая]": None,
-    "x_small_rad": "1070",
-    "y_small_rad": "860",
+    "x_small_rad": "1300",
+    "y_small_rad": "950",
     "# Кнопки [Средняя]": None,
-    "x_med_rad": "1160",
-    "y_med_rad": "860",
+    "x_med_rad": "1400",
+    "y_med_rad": "950",
     "# Тумблера начала сканирования": None,
-    "x_tumbler": "1445",
-    "y_tumbler": "860",
+    "x_tumbler": "1650",
+    "y_tumbler": "950",
     "# Зелёного индикатора найденного сигнала": None,
-    "x_ready": "680",
-    "y_ready": "530",
+    "x_ready": "950",
+    "y_ready": "640",
     "# Кнопки [Поиск]": None,
-    "x_search": "680",
-    "y_search": "630",
+    "x_search": "950",
+    "y_search": "730",
 }
 
 
@@ -58,7 +58,6 @@ class Configuration:
             self.init_config()
         else:
             self.config.read(FILEPATH, encoding="utf-8")
-
         try:
             self.set_values_from_file()
         except Exception:
@@ -71,7 +70,7 @@ class Configuration:
         self.height = int(self.get("height"))
         self.ahk_path = str(self.get("ahk_path"))
         self.lamp_to_stop = int(self.get("lamp_to_stop"))
-        self.reopen_time = float(self.get("reopen_time"))
+        self.reopen_time = int(self.get("reopen_time"))
         self.x_signal = int(self.get("x_signal"))
         self.y_signal = int(self.get("y_signal"))
         self.x_small_rad = int(self.get("x_small_rad"))
@@ -103,7 +102,7 @@ class Configuration:
     def set_value(self, key, value):
         try:
             value = str(value)
-            self.key = value
+            self.__setattr__(key, value)
             self.config["CONFIG"][key] = value
             self.save_config()
         except Exception as e:

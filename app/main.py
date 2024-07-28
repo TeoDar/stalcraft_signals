@@ -3,17 +3,13 @@
 from PyQt6.QtWidgets import QApplication
 from config import Configuration, exception
 from window_config import Interface
-import ctypes
-
-awareness = ctypes.c_int()
-ctypes.windll.shcore.SetProcessDpiAwareness(0)
 
 
 class App:
     def __init__(self) -> None:
         app = QApplication([])
         conf = Configuration()
-        window = Interface(conf)
+        window = Interface(app, conf)
         window.show()
         app.exec()
 
