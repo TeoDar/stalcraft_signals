@@ -2,7 +2,7 @@
 Автопоиск сигналов STALCRAFT 
 
 
-[![SIGNAL CATCHER](https://i9.ytimg.com/vi_webp/wRY2nGhNWTE/mqdefault.webp?v=66a5a27d&sqp=CMzOlrUG&rs=AOn4CLCqYmQqSNQ9xQkN-L1Q0mFb-VpO8A)](https://www.youtube.com/watch?v=wRY2nGhNWTE)
+[![SIGNAL CATCHER](https://i.ytimg.com/vi/wRY2nGhNWTE/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLB5Bzp8rPrtYXs6Sqdq4VG2T873hQ)](https://www.youtube.com/watch?v=wRY2nGhNWTE)
 
 ## Инструкция для запуска
 
