@@ -59,11 +59,11 @@
   },
   {
    "optionDest": "datas",
-   "value": "D:/PROJECTS/stalcraft_signals/res;res/"
+   "value": "D:/PROJECTS/stalcraft_signals/icon.ico;."
   },
   {
    "optionDest": "datas",
-   "value": "D:/PROJECTS/stalcraft_signals/icon.ico;."
+   "value": "D:/PROJECTS/stalcraft_signals/res;res/"
   }
  ],
  "nonPyinstallerOptions": {

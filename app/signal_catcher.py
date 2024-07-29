@@ -25,7 +25,7 @@ class SignalCatcher:
             self.win: Window = self.ahk.win_get(title="STALCRAFT")
         except Exception as e:
             print(e)
-            self.logger.put(f"Не найдено запущенного STALCRAFT\n{e}")
+            self.logger.put("Не найдено запущенного STALCRAFT")
             return
         self.logger.put("[Запуск поиска]")
         try:
