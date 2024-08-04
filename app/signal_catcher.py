@@ -90,13 +90,15 @@ class SignalCatcher:
         if not self.run:
             return
         self.ahk.mouse_move(x=self.conf.x_med_rad, y=self.conf.y_med_rad, speed=10, blocking=True)
+        QTest.qWait(100)
         self.win.click(x=self.conf.x_med_rad, y=self.conf.y_med_rad, blocking=True)
         if not self.run:
             return
         # Запуск сканирования
         QTest.qWait(self.conf.click_interval)
         self.logger.put("Переключаю тумблер")
-        #self.ahk.mouse_move(x=self.conf.x_tumbler, y=self.conf.y_tumbler, speed=10, blocking=True)
+        self.ahk.mouse_move(x=self.conf.x_tumbler, y=self.conf.y_tumbler, speed=10, blocking=True)
+        QTest.qWait(100)
         self.win.click(x=self.conf.x_tumbler, y=self.conf.y_tumbler)
         self.logger.put(f"Ожидаю до {self.conf.lamp_to_stop} лампочки...")
         for i in range(11):
@@ -108,6 +110,7 @@ class SignalCatcher:
         QTest.qWait(self.conf.click_interval)
         self.logger.put("Останавливаю сканирование")
         self.ahk.mouse_move(x=self.conf.x_tumbler, y=self.conf.y_tumbler, speed=10, blocking=True)
+        QTest.qWait(100)
         self.win.click(x=self.conf.x_tumbler, y=self.conf.y_tumbler, blocking=True)
         if not self.run:
             return
@@ -118,6 +121,7 @@ class SignalCatcher:
         if self.check_founded():
             self.logger.put("Поймали!")
             self.ahk.mouse_move(x=self.conf.x_search, y=self.conf.y_search, speed=10, blocking=True)
+            QTest.qWait(100)
             self.win.click(x=self.conf.x_search, y=self.conf.y_search, blocking=True)
             return True
         else:
