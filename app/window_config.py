@@ -56,6 +56,9 @@ class Interface(QMainWindow, Ui_main_window):
         # Задержка в сек. между открытиями САК
         self.reopen_time.setValue(self.conf.reopen_time)
         self.reopen_time.valueChanged.connect(lambda: self.conf.set_value(key="reopen_time", value=self.reopen_time.value()))
+        # Задержка между кликами по кнопкам САК
+        self.click_interval.setValue(self.conf.click_interval)
+        self.click_interval.valueChanged.connect(lambda: self.conf.set_value(key="click_interval", value=self.click_interval.value()))
         # Индикатор сигнала
         self.x_signal.setValue(self.conf.x_signal)
         self.x_signal.valueChanged.connect(lambda: self.conf.set_value(key="x_signal", value=self.x_signal.value()))

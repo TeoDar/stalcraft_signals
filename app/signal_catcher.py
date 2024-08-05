@@ -5,6 +5,7 @@ from PyQt6.QtTest import QTest
 from PyQt6.QtCore import QUrl
 from PyQt6.QtMultimedia import QAudioOutput, QMediaPlayer
 from window_manager import WindowMgr
+from traceback import format_exc as exc
 
 
 class SignalCatcher:
@@ -31,8 +32,8 @@ class SignalCatcher:
         try:
             self.searching()
         except Exception as e:
-            print(e)
-            self.logger.put(f"{e}")
+            print(exc())
+            self.logger.put(f"{exc()}")
             return
 
     def searching(self):
@@ -84,16 +85,20 @@ class SignalCatcher:
     def burn_signal(self):
         """Начало сканирования для обнаружения сигнала"""
         # Переключение на среднюю дистанцию
+        QTest.qWait(self.conf.click_interval)
         self.logger.put("Переключаю на среднюю дистанцию")
         if not self.run:
             return
         self.ahk.mouse_move(x=self.conf.x_med_rad, y=self.conf.y_med_rad, speed=10, blocking=True)
+        QTest.qWait(100)
         self.win.click(x=self.conf.x_med_rad, y=self.conf.y_med_rad, blocking=True)
         if not self.run:
             return
         # Запуск сканирования
+        QTest.qWait(self.conf.click_interval)
         self.logger.put("Переключаю тумблер")
         self.ahk.mouse_move(x=self.conf.x_tumbler, y=self.conf.y_tumbler, speed=10, blocking=True)
+        QTest.qWait(100)
         self.win.click(x=self.conf.x_tumbler, y=self.conf.y_tumbler)
         self.logger.put(f"Ожидаю до {self.conf.lamp_to_stop} лампочки...")
         for i in range(11):
@@ -102,17 +107,21 @@ class SignalCatcher:
         if not self.run:
             return
         # Отключение сканирования
+        QTest.qWait(self.conf.click_interval)
         self.logger.put("Останавливаю сканирование")
         self.ahk.mouse_move(x=self.conf.x_tumbler, y=self.conf.y_tumbler, speed=10, blocking=True)
+        QTest.qWait(100)
         self.win.click(x=self.conf.x_tumbler, y=self.conf.y_tumbler, blocking=True)
         if not self.run:
             return
         # Нажатие на кнопку ПОИСК
+        QTest.qWait(self.conf.click_interval)
         self.logger.put("Проверяю, пойман ли сигнал")
         QTest.qWait(150)
         if self.check_founded():
             self.logger.put("Поймали!")
             self.ahk.mouse_move(x=self.conf.x_search, y=self.conf.y_search, speed=10, blocking=True)
+            QTest.qWait(100)
             self.win.click(x=self.conf.x_search, y=self.conf.y_search, blocking=True)
             return True
         else:

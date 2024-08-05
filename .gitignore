@@ -5,3 +5,4 @@ main.spec
 1.py
 .vscode
 output
+__pycache__
