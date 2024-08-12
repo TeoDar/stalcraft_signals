@@ -13,6 +13,7 @@ class SignalCatcher:
         self.conf = conf
         self.run = False
         self.logger = logger
+        self.player = QMediaPlayer()
         self.ahk = AHK()
 
     def stop(self):
@@ -79,6 +80,8 @@ class SignalCatcher:
                     if founded:
                         self.play_sound(self.conf.sound_found_path, self.conf.sound_found_volume)
                         return
+                    QTest.qWait(1000)
+                    break
             self.logger.put("Сигнал не найден. Переоткрытие САК")
             self.reopen_suck()
 
@@ -129,10 +132,10 @@ class SignalCatcher:
 
     def check_founded(self) -> bool:
         """Проверка, был ли найден сигнал"""
-        r, g, b = self.get_color(self.conf.x_ready, self.conf.y_ready)
-        if r + g + b >= 100:
+        r1, g1, b1 = self.get_color(self.conf.x_ready, self.conf.y_ready)
+        if r1 + g1 + b1 >= 100:
             return True
-        self.logger.put(f"Похоже сигнал не найден. Цвет окна: r{r} g{g} b{b}")
+        self.logger.put(f"Похоже сигнал не найден. Цвет окошка под индикатором:: R[{r1}] G[{g1}] B[{b1}]")
         self.play_sound(self.conf.sound_fail_path, self.conf.sound_fail_volume)
         QTest.qWait(3000)
         return False
@@ -154,10 +157,12 @@ class SignalCatcher:
     def get_mouse_coords(self):
         return self.ahk.get_mouse_position(coord_mode="Client")
 
-    def play_sound(self, soundpath, volume):
-        self.player = QMediaPlayer()
+    def play_sound(self, soundpath:str, volume:int):
+        if self.player.isPlaying():
+            self.player.stop()
+            return
         self.audio_output = QAudioOutput()
         self.player.setAudioOutput(self.audio_output)
         self.player.setSource(QUrl(soundpath))
-        self.audio_output.setVolume(100)
+        self.audio_output.setVolume(volume/100)
         self.player.play()

@@ -11,16 +11,16 @@ environ["AHK_PATH"] = ahk_path
 
 DEFAULT_CONFIG = {
     "# Размер окна": None,
-    "width": "475",
-    "height": "275",
+    "width": "450",
+    "height": "350",
     "# Путь к AHK": None,
     "ahk_path": ahk_path,
     "# На какой лампочке останавливать поиск": None,
-    "lamp_to_stop": "6",
+    "time_to_stop": "10000",
     "# Задержка в сек. между открытиями САК": None,
-    "reopen_time": "1500",
+    "reopen_time": "1200",
     "# Задержка между кликами по кнопкам САК": None,
-    "click_interval": "500",
+    "click_interval": "200",
     "": None,
     "# Стандартные координаты для индикаторов под монитор 2560х1440,": None,
     "# для игры в оконном режиме с рамкой на весь экран": None,
@@ -61,7 +61,7 @@ def exception(error: str):
 
 class Configuration:
     def __init__(self) -> None:
-        self.config = configparser.ConfigParser(allow_no_value=True)
+        self.config = configparser.ConfigParser(comment_prefixes='/', allow_no_value=True)
         self.config.optionxform = str  # Для сохранения регистра записи коментариев
 
         if not self.exist():
@@ -79,7 +79,7 @@ class Configuration:
         self.width = int(self.get("width"))
         self.height = int(self.get("height"))
         self.ahk_path = str(self.get("ahk_path"))
-        self.time_to_stop = int(self.get("lamp_to_stop"))
+        self.time_to_stop = int(self.get("time_to_stop"))
         self.reopen_time = int(self.get("reopen_time"))
         self.click_interval = int(self.get("click_interval"))
         self.x_signal = int(self.get("x_signal"))

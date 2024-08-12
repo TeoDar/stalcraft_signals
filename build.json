@@ -19,7 +19,7 @@
   },
   {
    "optionDest": "icon_file",
-   "value": "D:/PROJECTS/stalcraft_signals/icon.ico"
+   "value": "D:/PROJECTS/stalcraft_signals/res/icon.ico"
   },
   {
    "optionDest": "name",
@@ -59,7 +59,7 @@
   },
   {
    "optionDest": "datas",
-   "value": "D:/PROJECTS/stalcraft_signals/icon.ico;."
+   "value": "D:/PROJECTS/stalcraft_signals/res/icon.ico;."
   },
   {
    "optionDest": "datas",
