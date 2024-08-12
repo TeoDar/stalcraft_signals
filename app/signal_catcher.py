@@ -71,13 +71,13 @@ class SignalCatcher:
                     if not self.run:
                         return
                     self.logger.put("[Сигнал найден]")
-                    self.play_sound("./res/sounds/signal.wav")
+                    self.play_sound(self.conf.sound_start_path, self.conf.sound_start_volume)
                     self.logger.put("Начинаю сканирование")
                     founded = self.burn_signal()
                     if not self.run:
                         return
                     if founded:
-                        self.play_sound("./res/sounds/success.wav")
+                        self.play_sound(self.conf.sound_found_path, self.conf.sound_found_volume)
                         return
             self.logger.put("Сигнал не найден. Переоткрытие САК")
             self.reopen_suck()
@@ -100,10 +100,10 @@ class SignalCatcher:
         self.ahk.mouse_move(x=self.conf.x_tumbler, y=self.conf.y_tumbler, speed=10, blocking=True)
         QTest.qWait(100)
         self.win.click(x=self.conf.x_tumbler, y=self.conf.y_tumbler)
-        self.logger.put(f"Ожидаю до {self.conf.lamp_to_stop} лампочки...")
-        for i in range(11):
-            if i <= self.conf.lamp_to_stop and self.run:
-                QTest.qWait(1500)
+        self.logger.put(f"Ожидаю {self.conf.time_to_stop} мс до остановки поиска ...")
+        if not self.run:
+            return
+        QTest.qWait(self.conf.time_to_stop)
         if not self.run:
             return
         # Отключение сканирования
@@ -133,7 +133,7 @@ class SignalCatcher:
         if r + g + b >= 100:
             return True
         self.logger.put(f"Похоже сигнал не найден. Цвет окна: r{r} g{g} b{b}")
-        self.play_sound("./res/sounds/fail.wav")
+        self.play_sound(self.conf.sound_fail_path, self.conf.sound_fail_volume)
         QTest.qWait(3000)
         return False
 
@@ -154,7 +154,7 @@ class SignalCatcher:
     def get_mouse_coords(self):
         return self.ahk.get_mouse_position(coord_mode="Client")
 
-    def play_sound(self, soundpath):
+    def play_sound(self, soundpath, volume):
         self.player = QMediaPlayer()
         self.audio_output = QAudioOutput()
         self.player.setAudioOutput(self.audio_output)

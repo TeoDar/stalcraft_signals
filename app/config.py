@@ -29,9 +29,6 @@ DEFAULT_CONFIG = {
     "# Индикатора сигнала": None,
     "x_signal": "1010",
     "y_signal": "545",
-    "# Кнопки [Малая]": None,
-    "x_small_rad": "1300",
-    "y_small_rad": "950",
     "# Кнопки [Средняя]": None,
     "x_med_rad": "1400",
     "y_med_rad": "950",
@@ -44,6 +41,17 @@ DEFAULT_CONFIG = {
     "# Кнопки [Поиск]": None,
     "x_search": "950",
     "y_search": "730",
+    "# Настройки звуков,": None,
+    "  ": None,
+    "# Начало поиска сигнала": None,
+    "sound_start_path": "./res/sounds/start.wav",
+    "sound_start_volume": "100",
+    "# Неудачная попытка поймать сигнал": None,
+    "sound_fail_path": "./res/sounds/fail.wav",
+    "sound_fail_volume": "100",
+    "# Успешная поимка": None,
+    "sound_found_path": "./res/sounds/found.wav",
+    "sound_found_volume": "100",
 }
 
 
@@ -71,13 +79,11 @@ class Configuration:
         self.width = int(self.get("width"))
         self.height = int(self.get("height"))
         self.ahk_path = str(self.get("ahk_path"))
-        self.lamp_to_stop = int(self.get("lamp_to_stop"))
+        self.time_to_stop = int(self.get("lamp_to_stop"))
         self.reopen_time = int(self.get("reopen_time"))
         self.click_interval = int(self.get("click_interval"))
         self.x_signal = int(self.get("x_signal"))
         self.y_signal = int(self.get("y_signal"))
-        self.x_small_rad = int(self.get("x_small_rad"))
-        self.y_small_rad = int(self.get("y_small_rad"))
         self.x_med_rad = int(self.get("x_med_rad"))
         self.y_med_rad = int(self.get("y_med_rad"))
         self.x_tumbler = int(self.get("x_tumbler"))
@@ -86,6 +92,12 @@ class Configuration:
         self.y_ready = int(self.get("y_ready"))
         self.x_search = int(self.get("x_search"))
         self.y_search = int(self.get("y_search"))
+        self.sound_start_path = str(self.get("sound_start_path"))
+        self.sound_start_volume = int(self.get("sound_start_volume"))
+        self.sound_fail_path = str(self.get("sound_fail_path"))
+        self.sound_fail_volume = int(self.get("sound_fail_volume"))
+        self.sound_found_path = str(self.get("sound_found_path"))
+        self.sound_found_volume = int(self.get("sound_found_volume"))
 
     def exist(self):
         return path.exists(FILEPATH)
@@ -105,8 +117,8 @@ class Configuration:
     def set_value(self, key, value):
         try:
             type_ = type(self.__getattribute__(key))
-            self.__setattr__(key, value)
             value = type_(value)
+            self.__setattr__(key, value)
             self.config["CONFIG"][key] = str(value)
             self.save_config()
         except Exception as e:

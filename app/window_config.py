@@ -51,8 +51,8 @@ class Interface(QMainWindow, Ui_main_window):
         self.ahk_path.setText(self.conf.ahk_path)
         self.ahk_path.editingFinished.connect(lambda: self.conf.set_value(key="ahk_path", value=self.ahk_path.text()))
         # На какой лампочке останавливать поиск
-        self.lamp_to_stop_slider.setValue(self.conf.lamp_to_stop)
-        self.lamp_to_stop_slider.valueChanged.connect(lambda: self.conf.set_value(key="lamp_to_stop", value=self.lamp_to_stop.text()))
+        self.time_to_stop.setValue(self.conf.time_to_stop)
+        self.time_to_stop.valueChanged.connect(lambda: self.conf.set_value(key="lamp_to_stop", value=self.time_to_stop.value()))
         # Задержка в сек. между открытиями САК
         self.reopen_time.setValue(self.conf.reopen_time)
         self.reopen_time.valueChanged.connect(lambda: self.conf.set_value(key="reopen_time", value=self.reopen_time.value()))
@@ -64,11 +64,6 @@ class Interface(QMainWindow, Ui_main_window):
         self.x_signal.valueChanged.connect(lambda: self.conf.set_value(key="x_signal", value=self.x_signal.value()))
         self.y_signal.setValue(self.conf.y_signal)
         self.y_signal.valueChanged.connect(lambda: self.conf.set_value(key="y_signal", value=self.y_signal.value()))
-        # Кнопки [Малая]
-        self.x_small_rad.setValue(self.conf.x_small_rad)
-        self.x_small_rad.valueChanged.connect(lambda: self.conf.set_value(key="x_small_rad", value=self.x_small_rad.value()))
-        self.y_small_rad.setValue(self.conf.y_small_rad)
-        self.y_small_rad.valueChanged.connect(lambda: self.conf.set_value(key="y_small_rad", value=self.y_small_rad.value()))
         # Кнопки [Средняя]
         self.x_med_rad.setValue(self.conf.x_med_rad)
         self.x_med_rad.valueChanged.connect(lambda: self.conf.set_value(key="x_med_rad", value=self.x_med_rad.value()))
@@ -97,6 +92,25 @@ class Interface(QMainWindow, Ui_main_window):
         self.tumbler_set.clicked.connect(lambda: self.get_coords_for(self.x_tumbler, self.y_tumbler, "x_tumbler", "y_tumbler"))
         self.ready_set.clicked.connect(lambda: self.get_coords_for(self.x_ready, self.y_ready, "x_ready", "y_ready"))
         self.search_set.clicked.connect(lambda: self.get_coords_for(self.x_search, self.y_search, "x_search", "y_search"))
+
+        # Звуки
+        self.y_search.setValue(self.conf.y_search)
+        self.y_search.valueChanged.connect(lambda: self.conf.set_value(key="y_search", value=self.y_search.value()))
+        self.ahk_path.editingFinished.connect(lambda: self.conf.set_value(key="ahk_path", value=self.ahk_path.text()))
+
+        self.sound_start_path.setText(self.conf.sound_start_path)
+        self.sound_start_path.editingFinished.connect(lambda: self.conf.set_value(key="sound_start_path", value=self.sound_start_path))
+        self.sound_start_slider.setValue(self.conf.sound_start_volume)
+        self.sound_start_slider.valueChanged.connect(lambda: self.conf.set_value(key="sound_start_volume", value=self.sound_start_volume.text()))
+        self.sound_fail_path.setText(self.conf.sound_fail_path)
+        self.sound_fail_path.editingFinished.connect(lambda: self.conf.set_value(key="sound_fail_path", value=self.sound_fail_path))
+        self.sound_fail_slider.setValue(self.conf.sound_fail_volume)
+        self.sound_fail_slider.valueChanged.connect(lambda: self.conf.set_value(key="sound_fail_volume", value=self.sound_fail_sound_start_volume.text()))
+        self.sound_found_path.setText(self.conf.sound_found_path)
+        self.sound_found_path.editingFinished.connect(lambda: self.conf.set_value(key="sound_found_path", value=self.sound_found_path))
+        self.sound_found_slider.setValue(self.conf.sound_found_volume)
+        self.sound_found_slider.valueChanged.connect(lambda: self.conf.set_value(key="sound_found_volume", value=self.sound_found_sound_start_volume.text()))
+
 
     def before_search(self):
         self.config_tab.setEnabled(False)
