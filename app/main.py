@@ -5,6 +5,7 @@
 from PyQt6.QtWidgets import QApplication
 from config import Configuration, exception
 from window_config import Interface
+from traceback import format_exc as exc
 
 
 class App:
@@ -19,9 +20,8 @@ class App:
 def main():
     try:
         App()
-    except Exception as e:
-        print(e)
-        exception(f"Ошибка запуска приложения!\n{e}")
+    except Exception:
+        exception(f"Ошибка запуска приложения!\n{exc()}")
 
 
 if __name__ == "__main__":
