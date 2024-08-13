@@ -168,8 +168,8 @@ class Interface(QMainWindow, Ui_main_window):
     def set_hotkey(self):
         key = self.hotkey.keySequence().toString()
         self.conf.set_value(key="hotkey", value=key)
-        self.catcher.ahk.stop_hotkeys()
         self.catcher.ahk.clear_hotkeys()
+        self.catcher.ahk.stop_hotkeys()
         self.catcher.ahk.add_hotkey(self.qt_hotkey_to_ahk(key), callback=self.start_search)
         self.catcher.ahk.start_hotkeys()
 
