@@ -6,3 +6,5 @@ main.spec
 .vscode
 output
 __pycache__
+.vscode
+output.zip
