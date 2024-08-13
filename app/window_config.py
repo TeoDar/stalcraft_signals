@@ -27,12 +27,11 @@ class Interface(QMainWindow, Ui_main_window):
         self.logger = Logger(self)
         self.catcher = SignalCatcher(conf, self.logger)
         self.cathing = False
+        # Установка горячей клавиши
+        self.catcher.ahk.add_hotkey(self.qt_hotkey_to_ahk(self.conf.hotkey), callback=self.start_search)
+        self.catcher.ahk.start_hotkeys()
         # Конфигурация кнопки "ПОИСК"
         self.search.clicked.connect(self.start_search)
-
-        # Уставновка горячей клавиши
-        self.shortcut = QShortcut(QKeySequence("Ctrl+Z"), self)
-        self.shortcut.activated.connect(self.start_search)
 
     def reconfigure(self):
         self.conf.init_config()
@@ -49,7 +48,10 @@ class Interface(QMainWindow, Ui_main_window):
         self.menu_repository_open.triggered.connect(lambda: webbrowser.open("https://github.com/TeoDar/stalcraft_signals"))
         self.menu_create_issue.triggered.connect(lambda: webbrowser.open("https://github.com/TeoDar/stalcraft_signals/issues/new/choose"))
         self.menu_restore_settings.triggered.connect(self.reconfigure)
-        #  Кнопки и конфигурация #
+        #  Кнопки и конфигурация
+        # Горячая клавиша запуска/остановки
+        self.hotkey.setKeySequence(self.conf.hotkey)
+        self.hotkey.editingFinished.connect(self.set_hotkey)
         # Путь к AHK
         self.ahk_path.setText(self.conf.ahk_path)
         self.ahk_path.editingFinished.connect(lambda: self.conf.set_value(key="ahk_path", value=self.ahk_path.text()))
@@ -124,6 +126,8 @@ class Interface(QMainWindow, Ui_main_window):
         self.config_tab.setEnabled(True)
 
     def start_search(self):
+        # Смена на таб с поиском
+        self.tabs.setCurrentWidget(self.search_tab)
         # Смена раскладки на Английскую
         py_win_keyboard_layout.change_foreground_window_keyboard_layout(0x04090409)
         if not self.cathing:
@@ -160,6 +164,20 @@ class Interface(QMainWindow, Ui_main_window):
                     coords_not_getted = False
             QTest.qWait(100)
         return x, y
+
+    def set_hotkey(self):
+        key = self.hotkey.keySequence().toString()
+        self.conf.set_value(key="hotkey", value=key)
+        self.catcher.ahk.stop_hotkeys()
+        self.catcher.ahk.clear_hotkeys()
+        self.catcher.ahk.add_hotkey(self.qt_hotkey_to_ahk(key), callback=self.start_search)
+        self.catcher.ahk.start_hotkeys()
+
+    def qt_hotkey_to_ahk(self, key: str):
+        key = key.replace("Shift+", "+")
+        key = key.replace("Ctrl+", "^")
+        key = key.replace("Alt+", "!")
+        return key
 
     ##########################################
     ####    Переопределение событий QT    ####

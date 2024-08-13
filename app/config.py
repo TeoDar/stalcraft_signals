@@ -13,10 +13,12 @@ DEFAULT_CONFIG = {
     "# Размер окна": None,
     "width": "450",
     "height": "350",
+    "# Горячая клавиша запуска/остановки поиска": None,
+    "hotkey": "CapsLock",
     "# Путь к AHK": None,
     "ahk_path": ahk_path,
     "# На какой лампочке останавливать поиск": None,
-    "time_to_stop": "10000",
+    "time_to_stop": "11000",
     "# Задержка в сек. между открытиями САК": None,
     "reopen_time": "1200",
     "# Задержка между кликами по кнопкам САК": None,
@@ -27,20 +29,20 @@ DEFAULT_CONFIG = {
     " ": None,
     "# Координаты [X] и [Y] для:": None,
     "# Индикатора сигнала": None,
-    "x_signal": "1010",
-    "y_signal": "545",
+    "x_signal": "923",
+    "y_signal": "508",
     "# Кнопки [Средняя]": None,
-    "x_med_rad": "1400",
-    "y_med_rad": "950",
+    "x_med_rad": "1447",
+    "y_med_rad": "1035",
     "# Тумблера начала сканирования": None,
-    "x_tumbler": "1650",
-    "y_tumbler": "950",
+    "x_tumbler": "1795",
+    "y_tumbler": "1021",
     "# Зелёного индикатора найденного сигнала": None,
-    "x_ready": "950",
-    "y_ready": "640",
+    "x_ready": "841",
+    "y_ready": "619",
     "# Кнопки [Поиск]": None,
-    "x_search": "950",
-    "y_search": "730",
+    "x_search": "842",
+    "y_search": "748",
     "# Настройки звуков,": None,
     "  ": None,
     "# Начало поиска сигнала": None,
@@ -51,7 +53,7 @@ DEFAULT_CONFIG = {
     "sound_fail_volume": "100",
     "# Успешная поимка": None,
     "sound_found_path": "./res/sounds/found.wav",
-    "sound_found_volume": "100",
+    "sound_found_volume": "20",
 }
 
 
@@ -78,6 +80,7 @@ class Configuration:
     def set_values_from_file(self):
         self.width = int(self.get("width"))
         self.height = int(self.get("height"))
+        self.hotkey = str(self.get("hotkey"))
         self.ahk_path = str(self.get("ahk_path"))
         self.time_to_stop = int(self.get("time_to_stop"))
         self.reopen_time = int(self.get("reopen_time"))

@@ -1,4 +1,5 @@
 from ahk import AHK, Window
+from ahk.directives import NoTrayIcon
 from logger import Logger
 from config import Configuration
 from PyQt6.QtTest import QTest
@@ -14,7 +15,7 @@ class SignalCatcher:
         self.run = False
         self.logger = logger
         self.player = QMediaPlayer()
-        self.ahk = AHK()
+        self.ahk = AHK(directives=[NoTrayIcon(apply_to_hotkeys_process=True)])
 
     def stop(self):
         self.run = False
