@@ -1,7 +1,7 @@
 # Для пересборки UI python -m PyQt6.uic.pyuic -o ./app/window.py -x interface.ui
 
 from time import sleep
-from PyQt6.QtWidgets import QApplication, QMainWindow, QSpinBox
+from PyQt6.QtWidgets import QApplication, QMainWindow, QSpinBox, QKeySequenceEdit
 from PyQt6.QtGui import QIcon, QGuiApplication
 from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtTest import QTest
@@ -12,6 +12,7 @@ from logger import Logger
 import webbrowser
 import win32api
 import py_win_keyboard_layout
+from autorun import autorun
 
 
 class Interface(QMainWindow, Ui_main_window):
@@ -22,17 +23,17 @@ class Interface(QMainWindow, Ui_main_window):
         self.setupUi(self)
         # Настройки всех функций окна
         self.configure()
+        # Перемещение в правый нижний угол
         QTimer.singleShot(1, self.move_to_right_bottom)
+        # Измененеие прозрачности при потере фокуса
         app.focusChanged.connect(self.onFocusChanged)
-
+        # Инициализация доп модулей
         self.logger = Logger(self)
         self.catcher = SignalCatcher(conf, self.logger)
         self.cathing = False
-        # Установка горячей клавиши
+        # Установка горячей клавиши Поиска
         self.catcher.ahk.add_hotkey(self.qt_hotkey_to_ahk(self.conf.hotkey), callback=self.start_search)
         self.catcher.ahk.start_hotkeys()
-        # Конфигурация кнопки "ПОИСК"
-        self.search.clicked.connect(self.start_search)
 
     def reconfigure(self):
         self.conf.init_config()
@@ -43,16 +44,18 @@ class Interface(QMainWindow, Ui_main_window):
         self.setWindowIcon(QIcon("./res/icon.ico"))
         self.setWindowFlags(Qt.WindowType.WindowStaysOnTopHint)
         self.resize(self.conf.width, self.conf.height)
-        #self.move_to_right_bottom()
         self.pb.hide()
         # Menu
         self.menu_repository_open.triggered.connect(lambda: webbrowser.open("https://github.com/TeoDar/stalcraft_signals"))
         self.menu_create_issue.triggered.connect(lambda: webbrowser.open("https://github.com/TeoDar/stalcraft_signals/issues/new/choose"))
         self.menu_restore_settings.triggered.connect(self.reconfigure)
-        #  Кнопки и конфигурация
+        # Кнопка "ПОИСК"
+        self.search.clicked.connect(self.start_search)
+
+        # Конфигурация
         # Горячая клавиша запуска/остановки
         self.hotkey.setKeySequence(self.conf.hotkey)
-        self.hotkey.editingFinished.connect(self.set_hotkey)
+        self.hotkey.editingFinished.connect(lambda: self.set_hotkey("hotkey", self.hotkey.keySequence().toString(), self.start_search))
         # Клавиша в игре, для открытия САК
         self.sak_key.setKeySequence(self.conf.sak_key)
         self.sak_key.editingFinished.connect(lambda: self.conf.set_value(key="sak_key", value=self.sak_key.keySequence().toString()))
@@ -93,7 +96,6 @@ class Interface(QMainWindow, Ui_main_window):
         self.x_search.valueChanged.connect(lambda: self.conf.set_value(key="x_search", value=self.x_search.value()))
         self.y_search.setValue(self.conf.y_search)
         self.y_search.valueChanged.connect(lambda: self.conf.set_value(key="y_search", value=self.y_search.value()))
-
         # Кнопки установить
         self.signal_set.clicked.connect(lambda: self.get_coords_for(self.x_signal, self.y_signal, "x_signal", "y_signal"))
         self.med_rad_set.clicked.connect(lambda: self.get_coords_for(self.x_med_rad, self.y_med_rad, "x_med_rad", "y_med_rad"))
@@ -102,10 +104,11 @@ class Interface(QMainWindow, Ui_main_window):
         self.search_set.clicked.connect(lambda: self.get_coords_for(self.x_search, self.y_search, "x_search", "y_search"))
 
         # Звуки
+        # Кнопки воспроизведения
         self.sound_start_play.clicked.connect(lambda: self.catcher.play_sound(self.conf.sound_start_path, self.conf.sound_start_volume))
         self.sound_fail_play.clicked.connect(lambda: self.catcher.play_sound(self.conf.sound_fail_path, self.conf.sound_fail_volume))
         self.sound_found_play.clicked.connect(lambda: self.catcher.play_sound(self.conf.sound_found_path, self.conf.sound_found_volume))
-
+        # Пути к файлам и громкость
         self.sound_start_path.setText(self.conf.sound_start_path)
         self.sound_start_path.editingFinished.connect(lambda: self.conf.set_value(key="sound_start_path", value=self.sound_start_path.text()))
         self.sound_start_slider.setValue(self.conf.sound_start_volume)
@@ -119,21 +122,31 @@ class Interface(QMainWindow, Ui_main_window):
         self.sound_found_slider.setValue(self.conf.sound_found_volume)
         self.sound_found_slider.valueChanged.connect(lambda: self.conf.set_value(key="sound_found_volume", value=self.sound_found_volume.text()))
 
+        # Утилиты
+        self.autorun_enabled.setChecked(self.conf.autorun_enabled)
+        self.autorun_enabled.checkStateChanged.connect(lambda: self.set_hotkey("hotkey", self.autorun_key.keySequence().toString(), autorun, self.conf.autorun_enabled))
+        self.autorun_key.setKeySequence(self.conf.hotkey)
+        self.autorun_key.editingFinished.connect(lambda: self.set_hotkey("hotkey", self.hotkey.keySequence(). toString(), self.start_search))
+
+
     def before_search(self):
+        """Изменение интерфейса перед началом поиска"""
         self.config_tab.setEnabled(False)
         self.search.setText("Идёт поиск")
         self.pb.show()
 
     def after_search(self):
+        """Изменение интерфейса после поиска"""
         self.pb.hide()
         self.search.setText("Поиск сигнала")
         self.config_tab.setEnabled(True)
 
     def start_search(self):
-        # Смена на таб с поиском
+        # Смена на вкладку с поиском
         self.tabs.setCurrentWidget(self.search_tab)
         # Смена раскладки на Английскую
         py_win_keyboard_layout.change_foreground_window_keyboard_layout(0x04090409)
+        # Обработка запуска и остановки сканирования
         if not self.cathing:
             self.before_search()
             self.cathing = True
@@ -151,6 +164,7 @@ class Interface(QMainWindow, Ui_main_window):
         self.move(qr.topLeft())
 
     def get_coords_for(self, x_widget: QSpinBox, y_widget: QSpinBox, x_key, y_key):
+        """Функция для получения координат мыши до следующего клика"""
         coords_not_getted = True
         clicked = None
         x, y = x_widget.value(), y_widget.value()
@@ -169,15 +183,16 @@ class Interface(QMainWindow, Ui_main_window):
             QTest.qWait(100)
         return x, y
 
-    def set_hotkey(self):
-        key = self.hotkey.keySequence().toString()
-        self.conf.set_value(key="hotkey", value=key)
-        self.catcher.ahk.clear_hotkeys()
-        self.catcher.ahk.stop_hotkeys()
-        self.catcher.ahk.add_hotkey(self.qt_hotkey_to_ahk(key), callback=self.start_search)
-        self.catcher.ahk.start_hotkeys()
+    def set_hotkey(self, key:str, value:str, callback, enabled:True):
+        """Переустановка хоткеев"""
+        self.conf.set_value(key=key, value=value)
+        self.catcher.ahk.remove_hotkey(self.qt_hotkey_to_ahk(value))
+        if enabled:
+            self.catcher.ahk.add_hotkey(self.qt_hotkey_to_ahk(value), callback=callback)
+
 
     def qt_hotkey_to_ahk(self, key: str):
+        """Преобразование строк основных комбинаций клавиш с QT на AHK"""
         key = key.replace("Shift+", "+")
         key = key.replace("Ctrl+", "^")
         key = key.replace("Alt+", "!")
