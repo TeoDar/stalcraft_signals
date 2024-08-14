@@ -52,6 +52,9 @@ class Interface(QMainWindow, Ui_main_window):
         # Горячая клавиша запуска/остановки
         self.hotkey.setKeySequence(self.conf.hotkey)
         self.hotkey.editingFinished.connect(self.set_hotkey)
+        # Клавиша в игре, для открытия САК
+        self.sak_key.setKeySequence(self.conf.sak_key)
+        self.sak_key.editingFinished.connect(lambda: self.conf.set_value(key="sak_key", value=self.sak_key.keySequence().toString()))
         # Путь к AHK
         self.ahk_path.setText(self.conf.ahk_path)
         self.ahk_path.editingFinished.connect(lambda: self.conf.set_value(key="ahk_path", value=self.ahk_path.text()))

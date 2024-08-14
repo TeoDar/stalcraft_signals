@@ -48,7 +48,7 @@ class SignalCatcher:
         if not self.run:
             return
         self.logger.put("Открытие САК")
-        self.win.send("x")
+        self.win.send(self.conf.sak_key)
         QTest.qWait(1000)
         if not self.run:
             return
@@ -144,11 +144,11 @@ class SignalCatcher:
     def reopen_suck(self):
         if not self.run:
             return
-        self.win.send("x")
+        self.win.send(self.conf.sak_key)
         QTest.qWait(self.conf.reopen_time)
         if not self.run:
             return
-        self.win.send("x")
+        self.win.send(self.conf.sak_key)
 
     def get_color(self, x, y):
         hex_color = self.ahk.pixel_get_color(x, y)[2:]

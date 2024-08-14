@@ -2,14 +2,6 @@
 <ui version="4.0">
  <class>main_window</class>
  <widget class="QMainWindow" name="main_window">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>450</width>
-    <height>350</height>
-   </rect>
-  </property>
   <property name="minimumSize">
    <size>
     <width>400</width>
@@ -178,8 +170,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>756</width>
-             <height>526</height>
+             <width>813</width>
+             <height>488</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -779,6 +771,16 @@
               <property name="verticalSpacing">
                <number>7</number>
               </property>
+              <item row="5" column="1">
+               <widget class="QKeySequenceEdit" name="sak_key"/>
+              </item>
+              <item row="5" column="0">
+               <widget class="QLabel" name="sak_key_label">
+                <property name="text">
+                 <string>Клавиша в игре, для открытия САК</string>
+                </property>
+               </widget>
+              </item>
               <item row="3" column="1">
                <widget class="QSpinBox" name="reopen_time">
                 <property name="suffix">
@@ -799,36 +801,6 @@
                 </property>
                </widget>
               </item>
-              <item row="4" column="1">
-               <widget class="QSpinBox" name="click_interval">
-                <property name="suffix">
-                 <string> мс</string>
-                </property>
-                <property name="maximum">
-                 <number>10000</number>
-                </property>
-                <property name="singleStep">
-                 <number>100</number>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="0">
-               <widget class="QLabel" name="click_interval_label">
-                <property name="text">
-                 <string>Задержка между кликами по кнопкам САК:</string>
-                </property>
-                <property name="wordWrap">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="time_to_stop_label">
-                <property name="text">
-                 <string>Время до остановки поиска (1500 мс ~ 1 лампочка):</string>
-                </property>
-               </widget>
-              </item>
               <item row="2" column="1">
                <widget class="QSpinBox" name="time_to_stop">
                 <property name="suffix">
@@ -845,6 +817,13 @@
                 </property>
                </widget>
               </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="time_to_stop_label">
+                <property name="text">
+                 <string>Время до остановки поиска (1500 мс ~ 1 лампочка):</string>
+                </property>
+               </widget>
+              </item>
               <item row="1" column="1">
                <widget class="QLineEdit" name="ahk_path">
                 <property name="maximumSize">
@@ -858,6 +837,29 @@
                 </property>
                </widget>
               </item>
+              <item row="4" column="0">
+               <widget class="QLabel" name="click_interval_label">
+                <property name="text">
+                 <string>Задержка между кликами по кнопкам САК:</string>
+                </property>
+                <property name="wordWrap">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1">
+               <widget class="QSpinBox" name="click_interval">
+                <property name="suffix">
+                 <string> мс</string>
+                </property>
+                <property name="maximum">
+                 <number>10000</number>
+                </property>
+                <property name="singleStep">
+                 <number>100</number>
+                </property>
+               </widget>
+              </item>
               <item row="3" column="0">
                <widget class="QLabel" name="reopen_time_label">
                 <property name="text">
@@ -868,15 +870,15 @@
                 </property>
                </widget>
               </item>
+              <item row="0" column="1">
+               <widget class="QKeySequenceEdit" name="hotkey"/>
+              </item>
               <item row="0" column="0">
                <widget class="QLabel" name="hotkey_label">
                 <property name="text">
                  <string>Горячая клавиша для запуска/остановки:</string>
                 </property>
                </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QKeySequenceEdit" name="hotkey"/>
               </item>
              </layout>
             </item>
@@ -913,8 +915,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>756</width>
-             <height>526</height>
+             <width>437</width>
+             <height>359</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout">
@@ -1183,7 +1185,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>450</width>
+     <width>467</width>
      <height>26</height>
     </rect>
    </property>

@@ -13,6 +13,8 @@ DEFAULT_CONFIG = {
     "# Размер окна": None,
     "width": "450",
     "height": "350",
+    "# Клавиша в игре, для открытия САК": None,
+    "sak_key": "x",
     "# Горячая клавиша запуска/остановки поиска": None,
     "hotkey": "CapsLock",
     "# Путь к AHK": None,
@@ -80,6 +82,7 @@ class Configuration:
     def set_values_from_file(self):
         self.width = int(self.get("width"))
         self.height = int(self.get("height"))
+        self.sak_key = str(self.get("sak_key"))
         self.hotkey = str(self.get("hotkey"))
         self.ahk_path = str(self.get("ahk_path"))
         self.time_to_stop = int(self.get("time_to_stop"))
