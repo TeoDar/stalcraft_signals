@@ -1,9 +1,9 @@
 # Для пересборки UI python -m PyQt6.uic.pyuic -o ./app/window.py -x interface.ui
 
 from time import sleep
-from PyQt6.QtWidgets import QApplication, QMainWindow, QSpinBox, QPushButton
-from PyQt6.QtGui import QIcon, QGuiApplication, QShortcut, QKeySequence
-from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import QApplication, QMainWindow, QSpinBox
+from PyQt6.QtGui import QIcon, QGuiApplication
+from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtTest import QTest
 from window import Ui_main_window
 from config import Configuration
@@ -22,6 +22,7 @@ class Interface(QMainWindow, Ui_main_window):
         self.setupUi(self)
         # Настройки всех функций окна
         self.configure()
+        QTimer.singleShot(1, self.move_to_right_bottom)
         app.focusChanged.connect(self.onFocusChanged)
 
         self.logger = Logger(self)
@@ -42,7 +43,7 @@ class Interface(QMainWindow, Ui_main_window):
         self.setWindowIcon(QIcon("./res/icon.ico"))
         self.setWindowFlags(Qt.WindowType.WindowStaysOnTopHint)
         self.resize(self.conf.width, self.conf.height)
-        self.move_to_right_bottom()
+        #self.move_to_right_bottom()
         self.pb.hide()
         # Menu
         self.menu_repository_open.triggered.connect(lambda: webbrowser.open("https://github.com/TeoDar/stalcraft_signals"))
