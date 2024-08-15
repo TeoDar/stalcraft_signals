@@ -3,16 +3,17 @@
 from time import sleep
 from PyQt6.QtWidgets import QApplication, QMainWindow, QSpinBox, QKeySequenceEdit
 from PyQt6.QtGui import QIcon, QGuiApplication
-from PyQt6.QtCore import Qt, QTimer
+from PyQt6.QtCore import Qt, QTimer, QEvent
 from PyQt6.QtTest import QTest
 from window import Ui_main_window
-from config import Configuration
+from config import Configuration, exception
 from signal_catcher import SignalCatcher
 from logger import Logger
 import webbrowser
 import win32api
 import py_win_keyboard_layout
-from autorun import autorun
+from autorun import Runner
+from traceback import format_exc as exc
 
 
 class Interface(QMainWindow, Ui_main_window):
@@ -34,6 +35,8 @@ class Interface(QMainWindow, Ui_main_window):
         # Установка горячей клавиши Поиска
         self.catcher.ahk.add_hotkey(self.qt_hotkey_to_ahk(self.conf.hotkey), callback=self.start_search)
         self.catcher.ahk.start_hotkeys()
+        # Инициализация утилит
+        self.runner = Runner()
 
     def reconfigure(self):
         self.conf.init_config()
@@ -55,47 +58,47 @@ class Interface(QMainWindow, Ui_main_window):
         # Конфигурация
         # Горячая клавиша запуска/остановки
         self.hotkey.setKeySequence(self.conf.hotkey)
-        self.hotkey.editingFinished.connect(lambda: self.set_hotkey("hotkey", self.hotkey.keySequence().toString(), self.start_search))
+        self.hotkey.editingFinished.connect(lambda: self.change_hotkey("hotkey", self.hotkey.keySequence().toString()))
         # Клавиша в игре, для открытия САК
         self.sak_key.setKeySequence(self.conf.sak_key)
-        self.sak_key.editingFinished.connect(lambda: self.conf.set_value(key="sak_key", value=self.sak_key.keySequence().toString()))
+        self.sak_key.editingFinished.connect(lambda: self.conf.set_value("sak_key", self.sak_key.keySequence().toString()))
         # Путь к AHK
         self.ahk_path.setText(self.conf.ahk_path)
-        self.ahk_path.editingFinished.connect(lambda: self.conf.set_value(key="ahk_path", value=self.ahk_path.text()))
+        self.ahk_path.editingFinished.connect(lambda: self.conf.set_value("ahk_path", self.ahk_path.text()))
         # На какой лампочке останавливать поиск
         self.time_to_stop.setValue(self.conf.time_to_stop)
-        self.time_to_stop.valueChanged.connect(lambda: self.conf.set_value(key="time_to_stop", value=self.time_to_stop.value()))
+        self.time_to_stop.valueChanged.connect(lambda: self.conf.set_value("time_to_stop", self.time_to_stop.value()))
         # Задержка в сек. между открытиями САК
         self.reopen_time.setValue(self.conf.reopen_time)
-        self.reopen_time.valueChanged.connect(lambda: self.conf.set_value(key="reopen_time", value=self.reopen_time.value()))
+        self.reopen_time.valueChanged.connect(lambda: self.conf.set_value("reopen_time", self.reopen_time.value()))
         # Задержка между кликами по кнопкам САК
         self.click_interval.setValue(self.conf.click_interval)
-        self.click_interval.valueChanged.connect(lambda: self.conf.set_value(key="click_interval", value=self.click_interval.value()))
+        self.click_interval.valueChanged.connect(lambda: self.conf.set_value("click_interval", self.click_interval.value()))
         # Индикатор сигнала
         self.x_signal.setValue(self.conf.x_signal)
-        self.x_signal.valueChanged.connect(lambda: self.conf.set_value(key="x_signal", value=self.x_signal.value()))
+        self.x_signal.valueChanged.connect(lambda: self.conf.set_value("x_signal", self.x_signal.value()))
         self.y_signal.setValue(self.conf.y_signal)
-        self.y_signal.valueChanged.connect(lambda: self.conf.set_value(key="y_signal", value=self.y_signal.value()))
+        self.y_signal.valueChanged.connect(lambda: self.conf.set_value("y_signal", self.y_signal.value()))
         # Кнопки [Средняя]
         self.x_med_rad.setValue(self.conf.x_med_rad)
-        self.x_med_rad.valueChanged.connect(lambda: self.conf.set_value(key="x_med_rad", value=self.x_med_rad.value()))
+        self.x_med_rad.valueChanged.connect(lambda: self.conf.set_value("x_med_rad", self.x_med_rad.value()))
         self.y_med_rad.setValue(self.conf.y_med_rad)
-        self.y_med_rad.valueChanged.connect(lambda: self.conf.set_value(key="y_med_rad", value=self.y_med_rad.value()))
+        self.y_med_rad.valueChanged.connect(lambda: self.conf.set_value("y_med_rad", self.y_med_rad.value()))
         # Тумблер начала сканирования
         self.x_tumbler.setValue(self.conf.x_tumbler)
-        self.x_tumbler.valueChanged.connect(lambda: self.conf.set_value(key="x_tumbler", value=self.x_tumbler.value()))
+        self.x_tumbler.valueChanged.connect(lambda: self.conf.set_value("x_tumbler", self.x_tumbler.value()))
         self.y_tumbler.setValue(self.conf.y_tumbler)
-        self.y_tumbler.valueChanged.connect(lambda: self.conf.set_value(key="y_tumbler", value=self.y_tumbler.value()))
+        self.y_tumbler.valueChanged.connect(lambda: self.conf.set_value("y_tumbler", self.y_tumbler.value()))
         # Зелёного индикатора найденного сигнала
         self.x_ready.setValue(self.conf.x_ready)
-        self.x_ready.valueChanged.connect(lambda: self.conf.set_value(key="x_ready", value=self.x_ready.value()))
+        self.x_ready.valueChanged.connect(lambda: self.conf.set_value("x_ready", self.x_ready.value()))
         self.y_ready.setValue(self.conf.y_ready)
-        self.y_ready.valueChanged.connect(lambda: self.conf.set_value(key="y_ready", value=self.y_ready.value()))
+        self.y_ready.valueChanged.connect(lambda: self.conf.set_value("y_ready", self.y_ready.value()))
         # Кнопки [Поиск]
         self.x_search.setValue(self.conf.x_search)
-        self.x_search.valueChanged.connect(lambda: self.conf.set_value(key="x_search", value=self.x_search.value()))
+        self.x_search.valueChanged.connect(lambda: self.conf.set_value("x_search", self.x_search.value()))
         self.y_search.setValue(self.conf.y_search)
-        self.y_search.valueChanged.connect(lambda: self.conf.set_value(key="y_search", value=self.y_search.value()))
+        self.y_search.valueChanged.connect(lambda: self.conf.set_value("y_search", self.y_search.value()))
         # Кнопки установить
         self.signal_set.clicked.connect(lambda: self.get_coords_for(self.x_signal, self.y_signal, "x_signal", "y_signal"))
         self.med_rad_set.clicked.connect(lambda: self.get_coords_for(self.x_med_rad, self.y_med_rad, "x_med_rad", "y_med_rad"))
@@ -110,24 +113,24 @@ class Interface(QMainWindow, Ui_main_window):
         self.sound_found_play.clicked.connect(lambda: self.catcher.play_sound(self.conf.sound_found_path, self.conf.sound_found_volume))
         # Пути к файлам и громкость
         self.sound_start_path.setText(self.conf.sound_start_path)
-        self.sound_start_path.editingFinished.connect(lambda: self.conf.set_value(key="sound_start_path", value=self.sound_start_path.text()))
+        self.sound_start_path.editingFinished.connect(lambda: self.conf.set_value("sound_start_path", self.sound_start_path.text()))
         self.sound_start_slider.setValue(self.conf.sound_start_volume)
-        self.sound_start_slider.valueChanged.connect(lambda: self.conf.set_value(key="sound_start_volume", value=self.sound_start_volume.text()))
+        self.sound_start_slider.valueChanged.connect(lambda: self.conf.set_value("sound_start_volume", self.sound_start_volume.text()))
         self.sound_fail_path.setText(self.conf.sound_fail_path)
-        self.sound_fail_path.editingFinished.connect(lambda: self.conf.set_value(key="sound_fail_path", value=self.sound_fail_path.text()))
+        self.sound_fail_path.editingFinished.connect(lambda: self.conf.set_value("sound_fail_path", self.sound_fail_path.text()))
         self.sound_fail_slider.setValue(self.conf.sound_fail_volume)
-        self.sound_fail_slider.valueChanged.connect(lambda: self.conf.set_value(key="sound_fail_volume", value=self.sound_fail_volume.text()))
+        self.sound_fail_slider.valueChanged.connect(lambda: self.conf.set_value("sound_fail_volume", self.sound_fail_volume.text()))
         self.sound_found_path.setText(self.conf.sound_found_path)
-        self.sound_found_path.editingFinished.connect(lambda: self.conf.set_value(key="sound_found_path", value=self.sound_found_path.text()))
+        self.sound_found_path.editingFinished.connect(lambda: self.conf.set_value("sound_found_path", self.sound_found_path.text()))
         self.sound_found_slider.setValue(self.conf.sound_found_volume)
-        self.sound_found_slider.valueChanged.connect(lambda: self.conf.set_value(key="sound_found_volume", value=self.sound_found_volume.text()))
+        self.sound_found_slider.valueChanged.connect(lambda: self.conf.set_value("sound_found_volume", self.sound_found_volume.text()))
 
         # Утилиты
         self.autorun_enabled.setChecked(self.conf.autorun_enabled)
-        self.autorun_enabled.checkStateChanged.connect(lambda: self.set_hotkey("hotkey", self.autorun_key.keySequence().toString(), autorun, self.conf.autorun_enabled))
-        self.autorun_key.setKeySequence(self.conf.hotkey)
-        self.autorun_key.editingFinished.connect(lambda: self.set_hotkey("hotkey", self.hotkey.keySequence(). toString(), self.start_search))
+        self.autorun_enabled.checkStateChanged.connect(self.change_autorun_state)
 
+        self.autorun_key.setText(self.conf.autorun_key)
+        self.autorun_key.textEdited.connect(self.change_autorun_key)
 
     def before_search(self):
         """Изменение интерфейса перед началом поиска"""
@@ -174,22 +177,31 @@ class Interface(QMainWindow, Ui_main_window):
                 clicked = True
                 x, y = self.catcher.get_mouse_coords()
                 x_widget.setValue(x)
-                self.conf.set_value(key=x_key, value=x)
+                self.conf.set_value(x_key, x)
                 y_widget.setValue(y)
-                self.conf.set_value(key=y_key, value=y)
+                self.conf.set_value(y_key, y)
             else:
                 if clicked == True:
                     coords_not_getted = False
             QTest.qWait(100)
         return x, y
 
-    def set_hotkey(self, key:str, value:str, callback, enabled:True):
-        """Переустановка хоткеев"""
-        self.conf.set_value(key=key, value=value)
-        self.catcher.ahk.remove_hotkey(self.qt_hotkey_to_ahk(value))
-        if enabled:
-            self.catcher.ahk.add_hotkey(self.qt_hotkey_to_ahk(value), callback=callback)
+    def change_hotkey(self, key: str, value: str):
+        self.catcher.ahk.remove_hotkey(self.conf[key])
+        self.conf.set_value(key, value)
+        self.catcher.ahk.add_hotkey(self.qt_hotkey_to_ahk(value), self.start_search)
 
+    def change_autorun_state(self):
+        check = self.autorun_enabled.isChecked()
+        self.conf.set_value("autorun_enabled", check)
+        if check:
+            self.autorun_key.setEnabled(True)
+        else:
+            self.autorun_key.setEnabled(False)
+
+    def change_autorun_key(self):
+        self.conf.set_value("autorun_key", self.autorun_key.text())
+        
 
     def qt_hotkey_to_ahk(self, key: str):
         """Преобразование строк основных комбинаций клавиш с QT на AHK"""
@@ -208,8 +220,8 @@ class Interface(QMainWindow, Ui_main_window):
 
     def resizeEvent(self, event):
         g = self.geometry()
-        self.conf.set_value(key="width", value=g.width())
-        self.conf.set_value(key="height", value=g.height())
+        self.conf.set_value("width", g.width())
+        self.conf.set_value("height", g.height())
 
     def onFocusChanged(self):
         if self.isActiveWindow():

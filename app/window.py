@@ -516,6 +516,7 @@ class Ui_main_window(object):
         self.gridLayout_6.addWidget(self.sounds_scroll, 2, 0, 1, 1)
         self.tabs.addTab(self.sounds_tab, "")
         self.tools_tab = QtWidgets.QWidget()
+        self.tools_tab.setEnabled(True)
         self.tools_tab.setObjectName("tools_tab")
         self.gridLayout_4 = QtWidgets.QGridLayout(self.tools_tab)
         self.gridLayout_4.setContentsMargins(0, 0, 0, 0)
@@ -533,7 +534,8 @@ class Ui_main_window(object):
         self.autorun_enabled = QtWidgets.QCheckBox(parent=self.tools_scroll_grid)
         self.autorun_enabled.setObjectName("autorun_enabled")
         self.gridLayout_7.addWidget(self.autorun_enabled, 0, 0, 1, 1)
-        self.autorun_key = QtWidgets.QKeySequenceEdit(parent=self.tools_scroll_grid)
+        self.autorun_key = QtWidgets.QLineEdit(parent=self.tools_scroll_grid)
+        self.autorun_key.setInputMask("")
         self.autorun_key.setObjectName("autorun_key")
         self.gridLayout_7.addWidget(self.autorun_key, 0, 1, 1, 1)
         self.tools_scroll.setWidget(self.tools_scroll_grid)
@@ -584,7 +586,7 @@ class Ui_main_window(object):
         self.menubar.addAction(self.menu.menuAction())
 
         self.retranslateUi(main_window)
-        self.tabs.setCurrentIndex(0)
+        self.tabs.setCurrentIndex(3)
         self.sound_fail_slider.valueChanged['int'].connect(self.sound_fail_volume.setNum) # type: ignore
         self.sound_start_slider.valueChanged['int'].connect(self.sound_start_volume.setNum) # type: ignore
         self.sound_found_slider.valueChanged['int'].connect(self.sound_found_volume.setNum) # type: ignore
@@ -651,6 +653,7 @@ class Ui_main_window(object):
         self.sound_found_play.setText(_translate("main_window", "▶"))
         self.tabs.setTabText(self.tabs.indexOf(self.sounds_tab), _translate("main_window", "🔊 Звуки"))
         self.autorun_enabled.setText(_translate("main_window", "Автобег"))
+        self.autorun_key.setPlaceholderText(_translate("main_window", "Клавиша для автобега"))
         self.tabs.setTabText(self.tabs.indexOf(self.tools_tab), _translate("main_window", "🪓 Утилиты"))
         self.menu.setTitle(_translate("main_window", "Меню"))
         self.action.setText(_translate("main_window", "Конфигурация"))
