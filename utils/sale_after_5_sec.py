@@ -15,11 +15,11 @@ x_sale, y_sale = 1120, 1060
 x_ok, y_ok = 1283, 714
 
 
-def sale(count=18):
+def sale(count=17):
     ahk = AHK()
     win: Window = ahk.win_get(title="STALCRAFT")
     print("Осталось продать предметов:")
-    while count>0:
+    while count > 0:
         print(f"\t{count}")
         ahk.mouse_move(x_sale, y_sale, speed=10, blocking=True)
         sleep(0.1)
@@ -29,12 +29,12 @@ def sale(count=18):
         sleep(0.1)
         win.click(x_ok, y_ok, blocking=True)
         sleep(5.1)
-        count-=1
+        count -= 1
 
 
 def main():
     sale()
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
     main()
