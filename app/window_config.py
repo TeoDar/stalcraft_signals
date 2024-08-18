@@ -1,19 +1,18 @@
 # Для пересборки UI python -m PyQt6.uic.pyuic -o ./app/window.py -x interface.ui
 
-from time import sleep
+from multiprocessing import Process
 from PyQt6.QtWidgets import QApplication, QMainWindow, QSpinBox, QKeySequenceEdit
 from PyQt6.QtGui import QIcon, QGuiApplication
-from PyQt6.QtCore import Qt, QTimer, QEvent
+from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtTest import QTest
 from window import Ui_main_window
-from config import Configuration, exception
+from config import Configuration
 from signal_catcher import SignalCatcher
 from logger import Logger
 import webbrowser
 import win32api
 import py_win_keyboard_layout
-from autorun import Runner
-from traceback import format_exc as exc
+from autorun import run, keys
 
 
 class Interface(QMainWindow, Ui_main_window):
@@ -35,8 +34,6 @@ class Interface(QMainWindow, Ui_main_window):
         # Установка горячей клавиши Поиска
         self.catcher.ahk.add_hotkey(self.qt_hotkey_to_ahk(self.conf.hotkey), callback=self.start_search)
         self.catcher.ahk.start_hotkeys()
-        # Инициализация утилит
-        self.runner = Runner()
 
     def reconfigure(self):
         self.conf.init_config()
@@ -128,9 +125,13 @@ class Interface(QMainWindow, Ui_main_window):
         # Утилиты
         self.autorun_enabled.setChecked(self.conf.autorun_enabled)
         self.autorun_enabled.checkStateChanged.connect(self.change_autorun_state)
+        if self.conf.autorun_enabled:
+            self.change_autorun_state()
 
-        self.autorun_key.setText(self.conf.autorun_key)
-        self.autorun_key.textEdited.connect(self.change_autorun_key)
+        self.autorun_key.addItems(list(keys.keys()))
+        self.autorun_key.setCurrentText(self.conf.autorun_key)
+        self.autorun_key.currentTextChanged.connect(lambda: self.conf.set_value("autorun_key", self.autorun_key.currentText()))
+        
 
     def before_search(self):
         """Изменение интерфейса перед началом поиска"""
@@ -195,9 +196,14 @@ class Interface(QMainWindow, Ui_main_window):
         check = self.autorun_enabled.isChecked()
         self.conf.set_value("autorun_enabled", check)
         if check:
-            self.autorun_key.setEnabled(True)
-        else:
+            print("Процесса автобега запущен")
             self.autorun_key.setEnabled(False)
+            self.autorun_process = Process(target=run, daemon=True, args=[keys[self.conf.autorun_key]])
+            self.autorun_process.start()
+        else:
+            self.autorun_key.setEnabled(True)
+            self.autorun_process.kill()
+            print("Процесса автобега отключен")
 
     def change_autorun_key(self):
         self.conf.set_value("autorun_key", self.autorun_key.text())

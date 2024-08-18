@@ -60,7 +60,7 @@ DEFAULT_CONFIG = {
     "# Автобег": None,
     "autorun_enabled": "0",
     "# Хоткей автобега": None,
-    "autorun_key": "Alt",
+    "autorun_key": "Left ALT",
 }
 
 
@@ -109,7 +109,7 @@ class Configuration:
         self.sound_fail_volume = int(self.get("sound_fail_volume"))
         self.sound_found_path = str(self.get("sound_found_path"))
         self.sound_found_volume = int(self.get("sound_found_volume"))
-        self.autorun_enabled = bool(self.get("autorun_enabled"))
+        self.autorun_enabled = True if self.get("autorun_enabled") == "True" else False
         self.autorun_key = str(self.get("autorun_key"))
 
 
