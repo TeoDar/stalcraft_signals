@@ -6,7 +6,7 @@ https://pythonhint.com/post/8830992746003799/simulate-key-press-at-hardware-leve
 https://learn.microsoft.com/ru-ru/windows/win32/inputdev/virtual-key-codes
 """
 
-from time import sleep, time
+from time import sleep
 import win32api, win32con, win32gui
 
 
@@ -18,13 +18,7 @@ keys = {
     "Mouse button 6": 0x06,
     "BACKSPACE": 0x08,
     "TAB": 0x09,
-    "ENTER": 0x0D,
-    "SHIFT": 0x10,
-    "CONTROL": 0x11,
-    "ALT": 0x12,
     "CAPS LOCK": 0x14,
-    "ESCAPE": 0x1B,
-    "SPACE": 0x20,
     "PAGE UP": 0x21,
     "PAGE DOWN": 0x22,
     "END": 0x23,
@@ -100,21 +94,7 @@ keys = {
     "F9": 0x78,
     "F10": 0x79,
     "F11": 0x7A,
-    "F12": 0x7B,
-    "F13": 0x7C,
-    "F14": 0x7D,
-    "F15": 0x7E,
-    "F16": 0x7F,
-    "F17": 0x80,
-    "F18": 0x81,
-    "F19": 0x82,
-    "F20": 0x83,
-    "F21": 0x84,
-    "F22": 0x85,
-    "F23": 0x86,
-    "F24": 0x87,
     "NUMLOCK": 0x90,
-    "SCROLL": 0x91,
     "Left SHIFT": 0xA0,
     "Right SHIFT": 0xA1,
     "Left CONTROL": 0xA2,

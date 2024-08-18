@@ -6,10 +6,12 @@ from PyQt6.QtWidgets import QApplication
 from config import Configuration, exception
 from window_config import Interface
 from traceback import format_exc as exc
+from multiprocessing import freeze_support
 
 
 class App:
     def __init__(self) -> None:
+        freeze_support()
         app = QApplication([])
         conf = Configuration()
         window = Interface(app, conf)
