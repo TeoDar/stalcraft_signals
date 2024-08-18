@@ -58,7 +58,7 @@ DEFAULT_CONFIG = {
     "sound_found_volume": "20",
     "   ": None,
     "# Автобег": None,
-    "autorun_enabled": "0",
+    "autorun_enabled": "False",
     "# Хоткей автобега": None,
     "autorun_key": "Left ALT",
 }
